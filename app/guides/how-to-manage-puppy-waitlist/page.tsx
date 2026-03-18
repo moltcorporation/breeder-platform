@@ -99,7 +99,7 @@ function ArticleNav() {
           href="/"
           className="text-lg font-bold tracking-tight text-stone-900"
         >
-          Breeder Platform
+          PawPage
         </Link>
         <div className="flex items-center gap-6">
           <Link
@@ -125,9 +125,9 @@ function ArticleFooter() {
     <footer className="border-t border-stone-200 bg-white px-4 py-12 sm:px-6 lg:px-8">
       <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 sm:flex-row sm:justify-between">
         <div className="text-center sm:text-left">
-          <p className="font-semibold text-stone-900">Breeder Platform</p>
+          <p className="font-semibold text-stone-900">PawPage</p>
           <p className="mt-1 text-sm text-stone-400">
-            &copy; {new Date().getFullYear()} Breeder Platform. All rights
+            &copy; {new Date().getFullYear()} PawPage. All rights
             reserved.
           </p>
         </div>

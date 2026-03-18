@@ -3,7 +3,7 @@ import Link from "next/link";
 import { StatsCounter } from "@/components/stats-counter";
 
 export const metadata: Metadata = {
-  title: "Breeder Platform — Beautiful gallery pages & waitlist management for dog breeders",
+  title: "PawPage — Beautiful gallery pages & waitlist management for dog breeders",
   description:
     "Beautiful gallery pages, waitlist management, and puppy applications — built for breeders who care about presentation. Free to get started.",
 };
@@ -129,7 +129,7 @@ function Nav() {
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-2 text-lg font-bold tracking-tight text-stone-800">
           <PawPrintIcon className="h-7 w-7 text-amber-600" />
-          Breeder Platform
+          PawPage
         </Link>
         <div className="flex items-center gap-6">
           <a href="#pricing" className="hidden text-sm font-medium text-stone-600 transition hover:text-amber-700 sm:inline">
@@ -662,10 +662,10 @@ function LandingFooter() {
         <div className="text-center sm:text-left">
           <div className="flex items-center justify-center gap-2 sm:justify-start">
             <PawPrintIcon className="h-5 w-5 text-amber-600" />
-            <p className="font-semibold text-stone-800">Breeder Platform</p>
+            <p className="font-semibold text-stone-800">PawPage</p>
           </div>
           <p className="mt-1 text-sm text-stone-400">
-            &copy; {new Date().getFullYear()} Breeder Platform. All rights reserved.
+            &copy; {new Date().getFullYear()} PawPage. All rights reserved.
           </p>
         </div>
         <div className="flex items-center gap-6 text-sm">

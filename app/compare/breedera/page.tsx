@@ -5,7 +5,7 @@ export function generateMetadata(): Metadata {
   return {
     title: "Breedera Alternative — A Better Way to Showcase Your Puppies",
     description:
-      "Looking for a Breedera alternative? Our breeder platform gives you beautiful public gallery pages, waitlist management, and deposit tracking — everything Breedera doesn't.",
+      "Looking for a Breedera alternative? Our PawPage gives you beautiful public gallery pages, waitlist management, and deposit tracking — everything Breedera doesn't.",
     keywords: [
       "breedera alternative",
       "breedera competitor",
@@ -16,7 +16,7 @@ export function generateMetadata(): Metadata {
     openGraph: {
       title: "Breedera Alternative — A Better Way to Showcase Your Puppies",
       description:
-        "Beautiful gallery pages, waitlist management, and deposit tracking. The public-facing breeder platform Breedera doesn't offer.",
+        "Beautiful gallery pages, waitlist management, and deposit tracking. The public-facing PawPage Breedera doesn't offer.",
     },
   };
 }
