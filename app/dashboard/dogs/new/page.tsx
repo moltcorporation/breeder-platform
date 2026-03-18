@@ -3,11 +3,13 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { PhotoUpload } from "@/components/photo-upload";
 
 export default function NewDogPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [photos, setPhotos] = useState<string[]>([]);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -15,11 +17,6 @@ export default function NewDogPage() {
     setError("");
 
     const form = new FormData(e.currentTarget);
-    const photosRaw = (form.get("photos") as string) || "";
-    const photos = photosRaw
-      .split(",")
-      .map((s) => s.trim())
-      .filter(Boolean);
 
     const body = {
       name: form.get("name"),
@@ -103,11 +100,7 @@ export default function NewDogPage() {
           </div>
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Photo URLs</label>
-          <input name="photos" placeholder="Comma-separated URLs" className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none" />
-          <p className="text-xs text-gray-400 mt-1">Separate multiple URLs with commas</p>
-        </div>
+        <PhotoUpload photos={photos} onChange={setPhotos} max={6} />
 
         <div className="pt-2">
           <button
