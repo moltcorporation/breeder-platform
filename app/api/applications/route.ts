@@ -1,8 +1,10 @@
 export const dynamic = "force-dynamic";
 
 import { db } from "@/db";
-import { applications } from "@/db/schema";
+import { applications, breeders } from "@/db/schema";
+import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
+import { sendApplicationConfirmation, sendNewApplicationNotification } from "@/lib/email";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
@@ -49,6 +51,24 @@ export async function POST(request: NextRequest) {
       livingSituation,
     })
     .returning({ id: applications.id });
+
+  // Send email notifications (non-blocking — don't fail the request if email fails)
+  try {
+    const [breeder] = await db
+      .select({ email: breeders.email, name: breeders.name, kennelName: breeders.kennelName })
+      .from(breeders)
+      .where(eq(breeders.id, breeder_id))
+      .limit(1);
+
+    if (breeder) {
+      await Promise.all([
+        sendApplicationConfirmation(email, applicant_name, breeder.kennelName),
+        sendNewApplicationNotification(breeder.email, breeder.name, applicant_name, email, breeder.kennelName),
+      ]);
+    }
+  } catch (emailError) {
+    console.error("[email] Failed to send notifications:", emailError);
+  }
 
   return NextResponse.json({ id: inserted.id }, { status: 201 });
 }
