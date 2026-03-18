@@ -6,7 +6,7 @@ export function generateMetadata(): Metadata {
     title:
       "Better Than a Puppy Waitlist Spreadsheet — Breeder Waitlist Software",
     description:
-      "Outgrown your Google Sheets puppy waitlist? Our platform gives you automatic position tracking, a professional gallery, deposit collection, and SEO — things a spreadsheet can't do.",
+      "Outgrown your Google Sheets puppy waitlist? Our platform gives you automatic position tracking, a professional gallery, deposit tracking, and SEO — things a spreadsheet can't do.",
     keywords: [
       "puppy waitlist template",
       "breeder spreadsheet",
@@ -18,7 +18,7 @@ export function generateMetadata(): Metadata {
     openGraph: {
       title: "Better Than a Puppy Waitlist Spreadsheet",
       description:
-        "Automatic position tracking, professional gallery pages, Stripe deposits, and SEO. The upgrade from your breeder spreadsheet.",
+        "Automatic position tracking, professional gallery pages, deposit tracking, and SEO. The upgrade from your breeder spreadsheet.",
     },
   };
 }
@@ -27,7 +27,7 @@ const faqItems = [
   {
     question: "Is a spreadsheet really that bad for managing a waitlist?",
     answer:
-      "For a handful of puppies and a few buyers, a spreadsheet works fine. The problems start as you grow: you're manually updating positions, buyers message you constantly to ask where they stand, you have no way to collect deposits securely, there's no professional gallery to share, and you're missing out on Google traffic because a spreadsheet isn't a website. If you have more than one litter per year, the time savings alone make a dedicated tool worth it.",
+      "For a handful of puppies and a few buyers, a spreadsheet works fine. The problems start as you grow: you're manually updating positions, buyers message you constantly to ask where they stand, you have no way to track deposits securely, there's no professional gallery to share, and you're missing out on Google traffic because a spreadsheet isn't a website. If you have more than one litter per year, the time savings alone make a dedicated tool worth it.",
   },
   {
     question: "Can buyers check their waitlist position without messaging me?",
@@ -37,7 +37,7 @@ const faqItems = [
   {
     question: "How do deposits work?",
     answer:
-      "Deposits are collected securely through Stripe. When a buyer is ready to put down a deposit, they pay through your platform page — no more Venmo screenshots, lost checks, or awkward payment conversations. Everything is tracked and recorded automatically.",
+      "Record deposits as they come in — whether buyers pay via Venmo, Zelle, check, or cash. Everything is tracked in your dashboard with timestamps. No more guessing who paid what or chasing screenshots.",
   },
   {
     question: "Will this help me get more buyers?",
@@ -79,7 +79,7 @@ const comparisons: ComparisonRow[] = [
     us: true,
   },
   {
-    capability: "Deposit collection (Stripe)",
+    capability: "deposit tracking",
     spreadsheet: false,
     us: true,
   },
@@ -114,7 +114,7 @@ const painPoints = [
       'Every time a litter is announced, your inbox fills up with "Where am I on the list?" messages. With automatic position tracking, buyers check themselves.',
   },
   {
-    title: "No way to collect deposits",
+    title: "No way to track deposits",
     description:
       "You're juggling Venmo, Zelle, checks, and cash. Stripe integration means one clean payment flow, automatically tied to the buyer's waitlist entry.",
   },
@@ -320,7 +320,7 @@ export default function SpreadsheetsComparePage() {
                 <span className="text-base font-normal text-zinc-500">/mo</span>
               </p>
               <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
-                Everything in Basic + deposit collection via Stripe
+                Everything in Basic + deposit tracking
               </p>
             </div>
           </div>
