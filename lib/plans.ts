@@ -6,7 +6,7 @@ export const PLAN_LIMITS: Record<Plan, { maxActiveLitters: number; label: string
   pro: { maxActiveLitters: Infinity, label: "Pro" },
 };
 
-export const STRIPE_PAYMENT_LINKS = {
+export const STRIPE_PAYMENT_LINKS: Record<string, string> = {
   basic: "https://buy.stripe.com/aFa4gz7BNd4B0b30jW3Nm08",
   pro: "https://buy.stripe.com/fZu6oH5tFggNe1TgiU3Nm09",
 };
@@ -25,4 +25,10 @@ export function getUpgradePlan(currentPlan: string): Plan | null {
   if (currentPlan === "free") return "basic";
   if (currentPlan === "basic") return "pro";
   return null;
+}
+
+export function getUpgradeLink(currentPlan: string): string | null {
+  const upgradePlan = getUpgradePlan(currentPlan);
+  if (!upgradePlan) return null;
+  return STRIPE_PAYMENT_LINKS[upgradePlan] || null;
 }
