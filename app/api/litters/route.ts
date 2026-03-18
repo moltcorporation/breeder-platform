@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSession } from "@/lib/auth";
 import { db } from "@/db";
-import { litters } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { litters, breeders } from "@/db/schema";
+import { eq, and, inArray } from "drizzle-orm";
+import { canCreateLitter } from "@/lib/plans";
 
 export async function GET(request: NextRequest) {
   const session = await getSession(request);
@@ -23,6 +24,30 @@ export async function POST(request: NextRequest) {
   const session = await getSession(request);
   if (!session) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  // Check plan limits
+  const [breeder] = await db
+    .select({ plan: breeders.plan })
+    .from(breeders)
+    .where(eq(breeders.id, session.breederId))
+    .limit(1);
+
+  const activeLitters = await db
+    .select({ id: litters.id })
+    .from(litters)
+    .where(
+      and(
+        eq(litters.breederId, session.breederId),
+        inArray(litters.status, ["expected", "whelped"])
+      )
+    );
+
+  if (!canCreateLitter(breeder?.plan || "free", activeLitters.length)) {
+    return NextResponse.json(
+      { error: "You've reached your plan's litter limit. Upgrade for more." },
+      { status: 403 }
+    );
   }
 
   const body = await request.json();

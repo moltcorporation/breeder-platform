@@ -326,7 +326,7 @@ const tiers = [
       "Priority support",
     ],
     cta: "Start Basic",
-    ctaHref: "https://buy.stripe.com/eVqbJ14pB9Sp0b3aYA3Nm06",
+    ctaHref: "https://buy.stripe.com/aFa4gz7BNd4B0b30jW3Nm08",
     highlighted: false,
   },
   {
@@ -342,7 +342,7 @@ const tiers = [
       "Custom domain",
     ],
     cta: "Start Pro",
-    ctaHref: "https://buy.stripe.com/4gMfZh2ht6Gde1T3w83Nm07",
+    ctaHref: "https://buy.stripe.com/fZu6oH5tFggNe1TgiU3Nm09",
     highlighted: true,
   },
 ];

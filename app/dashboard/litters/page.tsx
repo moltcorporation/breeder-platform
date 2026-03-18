@@ -2,15 +2,24 @@ export const dynamic = "force-dynamic";
 
 import { getSession } from "@/lib/auth";
 import { db } from "@/db";
-import { litters, dogs } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { litters, dogs, breeders } from "@/db/schema";
+import { eq, and, inArray } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { DeleteLitterButton } from "./delete-button";
+import { canCreateLitter, getUpgradePlan, PLAN_LIMITS, STRIPE_PAYMENT_LINKS, type Plan } from "@/lib/plans";
 
 export default async function LittersPage() {
   const session = await getSession();
   if (!session) redirect("/login");
+
+  const [breeder] = await db
+    .select({ plan: breeders.plan })
+    .from(breeders)
+    .where(eq(breeders.id, session.breederId))
+    .limit(1);
+
+  const plan = (breeder?.plan || "free") as Plan;
 
   const allLitters = await db
     .select({
@@ -27,6 +36,13 @@ export default async function LittersPage() {
     .where(eq(litters.breederId, session.breederId))
     .orderBy(litters.createdAt);
 
+  const activeLitters = allLitters.filter(
+    (l) => l.status === "expected" || l.status === "whelped"
+  );
+  const canAdd = canCreateLitter(plan, activeLitters.length);
+  const upgradePlan = getUpgradePlan(plan);
+  const limits = PLAN_LIMITS[plan];
+
   // Fetch all breeder's dogs for name lookup
   const allDogs = await db
     .select({ id: dogs.id, name: dogs.name })
@@ -39,13 +55,39 @@ export default async function LittersPage() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold">Litters</h1>
-        <Link
-          href="/dashboard/litters/new"
-          className="px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 text-sm font-medium"
-        >
-          + Add Litter
-        </Link>
+        {canAdd ? (
+          <Link
+            href="/dashboard/litters/new"
+            className="px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 text-sm font-medium"
+          >
+            + Add Litter
+          </Link>
+        ) : upgradePlan ? (
+          <a
+            href={STRIPE_PAYMENT_LINKS[upgradePlan]}
+            className="px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 text-sm font-medium"
+          >
+            Upgrade to {PLAN_LIMITS[upgradePlan].label} for more litters
+          </a>
+        ) : null}
       </div>
+
+      {!canAdd && upgradePlan && (
+        <div className="mb-6 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+          You&apos;ve reached your {limits.label} plan limit of{" "}
+          {limits.maxActiveLitters} active litter{limits.maxActiveLitters !== 1 ? "s" : ""}.{" "}
+          <a
+            href={STRIPE_PAYMENT_LINKS[upgradePlan]}
+            className="font-medium underline hover:text-amber-900"
+          >
+            Upgrade to {PLAN_LIMITS[upgradePlan].label}
+          </a>{" "}
+          for {PLAN_LIMITS[upgradePlan].maxActiveLitters === Infinity
+            ? "unlimited"
+            : PLAN_LIMITS[upgradePlan].maxActiveLitters}{" "}
+          litters.
+        </div>
+      )}
 
       {allLitters.length === 0 ? (
         <div className="text-center py-12 bg-white rounded-lg border border-gray-200">
