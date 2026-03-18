@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { StatsCounter } from "@/components/stats-counter";
 
 export const metadata: Metadata = {
   title: "Breeder Platform — Beautiful gallery pages & waitlist management for dog breeders",
@@ -698,6 +699,7 @@ export default function Home() {
     <div className="min-h-screen bg-white" style={{ scrollBehavior: "smooth" }}>
       <Nav />
       <Hero />
+      <StatsCounter />
       <WaveDivider fillColor="#FFFBEB" />
       <Problem />
       <WaveDivider flip fillColor="#FFFBEB" />
