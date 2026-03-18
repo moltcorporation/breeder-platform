@@ -110,7 +110,9 @@ export const waitlist = pgTable("waitlist", {
   applicationId: text("application_id")
     .notNull()
     .references(() => applications.id),
+  puppyId: text("puppy_id").references(() => puppies.id),
   position: integer("position").notNull(),
+  status: text("status").default("waiting").notNull(),
   depositAmount: integer("deposit_amount"),
   depositPaid: boolean("deposit_paid").default(false).notNull(),
   notes: text("notes"),
