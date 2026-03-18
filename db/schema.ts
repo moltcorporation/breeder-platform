@@ -118,3 +118,15 @@ export const waitlist = pgTable("waitlist", {
   notes: text("notes"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
+
+export const feedback = pgTable("feedback", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => nanoid()),
+  email: text("email"),
+  category: text("category").notNull(),
+  intent: text("intent"),
+  message: text("message").notNull(),
+  page: text("page"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
