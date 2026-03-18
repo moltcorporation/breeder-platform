@@ -327,9 +327,9 @@ const features = [
     badge: null,
   },
   {
-    title: "Deposit Collection",
+    title: "Deposit Tracking",
     description:
-      "Collect deposits through Stripe. Buyers pay securely, you get paid directly. No more chasing Venmo payments.",
+      "Track deposits in one place. Record when buyers pay via Venmo, Zelle, or check. No more guessing who paid and who didn't.",
     icon: <DollarIcon className="h-7 w-7 text-amber-600" />,
     badge: "Coming soon",
   },
@@ -515,7 +515,7 @@ const tiers = [
     features: [
       "Unlimited litters",
       "Everything in Basic",
-      "Deposit collection",
+      "Deposit tracking",
       "Contracts",
       "Custom domain",
     ],

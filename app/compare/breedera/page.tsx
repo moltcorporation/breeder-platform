@@ -5,7 +5,7 @@ export function generateMetadata(): Metadata {
   return {
     title: "Breedera Alternative — A Better Way to Showcase Your Puppies",
     description:
-      "Looking for a Breedera alternative? Our breeder platform gives you beautiful public gallery pages, waitlist management, and deposit collection — everything Breedera doesn't.",
+      "Looking for a Breedera alternative? Our breeder platform gives you beautiful public gallery pages, waitlist management, and deposit tracking — everything Breedera doesn't.",
     keywords: [
       "breedera alternative",
       "breedera competitor",
@@ -16,7 +16,7 @@ export function generateMetadata(): Metadata {
     openGraph: {
       title: "Breedera Alternative — A Better Way to Showcase Your Puppies",
       description:
-        "Beautiful gallery pages, waitlist management, and Stripe deposit collection. The public-facing breeder platform Breedera doesn't offer.",
+        "Beautiful gallery pages, waitlist management, and deposit tracking. The public-facing breeder platform Breedera doesn't offer.",
     },
   };
 }
@@ -25,17 +25,17 @@ const faqItems = [
   {
     question: "How is this different from Breedera?",
     answer:
-      "Breedera is a breeding management tool focused on health records, heat cycles, vaccinations, and weight tracking. Our platform focuses on the public-facing side of your breeding business: beautiful gallery pages that rank on Google, waitlist management with position tracking for buyers, and secure deposit collection through Stripe. If you need breeding record-keeping, Breedera is great for that. If you need to attract and manage buyers, we fill that gap.",
+      "Breedera is a breeding management tool focused on health records, heat cycles, vaccinations, and weight tracking. Our platform focuses on the public-facing side of your breeding business: beautiful gallery pages that rank on Google, waitlist management with position tracking for buyers, and deposit tracking for Venmo, Zelle, check, or cash payments. If you need breeding record-keeping, Breedera is great for that. If you need to attract and manage buyers, we fill that gap.",
   },
   {
     question: "Can I use this alongside Breedera?",
     answer:
-      "Absolutely. Many breeders use Breedera for internal health and breeding management while using our platform for their public-facing gallery, waitlist, and deposit collection. The two tools complement each other well.",
+      "Absolutely. Many breeders use Breedera for internal health and breeding management while using our platform for their public-facing gallery, waitlist, and deposit tracking. The two tools complement each other well.",
   },
   {
     question: "Do you offer health record tracking or breeding management?",
     answer:
-      "No. We intentionally focus on three things and do them exceptionally well: public gallery pages, waitlist management, and deposit collection. For health records, pedigrees, and breeding cycle tracking, we recommend a dedicated tool like Breedera.",
+      "No. We intentionally focus on three things and do them exceptionally well: public gallery pages, waitlist management, and deposit tracking. For health records, pedigrees, and breeding cycle tracking, we recommend a dedicated tool like Breedera.",
   },
   {
     question: "How much does it cost compared to Breedera?",
@@ -68,7 +68,7 @@ const features: FeatureRow[] = [
   { feature: "SEO-indexable breeder pages", us: true, them: false },
   { feature: "Waitlist with position tracking", us: true, them: false },
   { feature: "Puppy application forms", us: true, them: false },
-  { feature: "Deposit collection (Stripe)", us: true, them: false },
+  { feature: "Deposit tracking", us: true, them: false },
   { feature: "Heat cycle tracking", us: false, them: true },
   { feature: "Vaccination records", us: false, them: true },
   { feature: "Weight tracking", us: false, them: true },
@@ -163,7 +163,7 @@ export default function BreederaComparePage() {
             record-keeping. Our platform focuses on the public-facing side: giving
             your puppies a beautiful, SEO-indexable gallery page that attracts
             buyers, a waitlist system that lets applicants track their position,
-            and secure deposit collection through Stripe. Breedera has no public
+            and deposit tracking for Venmo, Zelle, check, or cash payments. Breedera has no public
             gallery and no SEO-indexable pages. We don&apos;t do breeding
             management. The two platforms solve entirely different problems.
           </p>
@@ -269,7 +269,7 @@ export default function BreederaComparePage() {
               Ready to give your puppies the spotlight they deserve?
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-zinc-400">
-              Set up your gallery, waitlist, and deposit collection in minutes.
+              Set up your gallery, waitlist, and deposit tracking in minutes.
               Plans start at $15/mo.
             </p>
             <Link

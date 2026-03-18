@@ -5,7 +5,7 @@ export function generateMetadata(): Metadata {
   return {
     title: "BreederBuddy Alternative — Simple Waitlist & Gallery for Breeders",
     description:
-      "Looking for a BreederBuddy alternative? Our platform focuses on three things: beautiful gallery pages, waitlist management, and deposit collection. Simple, affordable, effective.",
+      "Looking for a BreederBuddy alternative? Our platform focuses on three things: beautiful gallery pages, waitlist management, and deposit tracking. Simple, affordable, effective.",
     keywords: [
       "breederbuddy alternative",
       "breederbuddy competitor",
@@ -17,7 +17,7 @@ export function generateMetadata(): Metadata {
       title:
         "BreederBuddy Alternative — Simple Waitlist & Gallery for Breeders",
       description:
-        "Three core features done right: gallery pages, waitlist management, and Stripe deposits. A simpler alternative to BreederBuddy.",
+        "Three core features done right: gallery pages, waitlist management, and deposit tracking. A simpler alternative to BreederBuddy.",
     },
   };
 }
@@ -26,12 +26,12 @@ const faqItems = [
   {
     question: "Why choose this over BreederBuddy?",
     answer:
-      "BreederBuddy offers 15+ features covering pedigrees, contracts, health records, CRM, and more. If you need all of that, it's a solid choice. Our platform is for breeders who want three things done exceptionally well: a beautiful public gallery that ranks on Google, a waitlist system buyers can actually use, and deposit collection through Stripe. Less to learn, less to configure, and your public-facing pages look better.",
+      "BreederBuddy offers 15+ features covering pedigrees, contracts, health records, CRM, and more. If you need all of that, it's a solid choice. Our platform is for breeders who want three things done exceptionally well: a beautiful public gallery that ranks on Google, a waitlist system buyers can actually use, and deposit tracking. Less to learn, less to configure, and your public-facing pages look better.",
   },
   {
     question: "Does your platform handle pedigrees or health records?",
     answer:
-      "No. We focus exclusively on the buyer-facing side of your business: gallery pages, waitlist management, and deposit collection. For pedigrees, health records, and breeding management, you'd want a dedicated tool for that.",
+      "No. We focus exclusively on the buyer-facing side of your business: gallery pages, waitlist management, and deposit tracking. For pedigrees, health records, and breeding management, you'd want a dedicated tool for that.",
   },
   {
     question: "Are your public pages better for SEO than BreederBuddy?",
@@ -69,7 +69,7 @@ const features: FeatureRow[] = [
   { feature: "SEO-optimized breeder pages", us: true, them: false },
   { feature: "Waitlist with buyer position tracking", us: true, them: true },
   { feature: "Puppy application forms", us: true, them: true },
-  { feature: "Deposit collection (Stripe)", us: true, them: true },
+  { feature: "Deposit tracking", us: true, them: true },
   { feature: "Pedigree management", us: false, them: true },
   { feature: "Contracts & agreements", us: false, them: true },
   { feature: "Health records", us: false, them: true },
@@ -178,10 +178,10 @@ export default function BreederBuddyComparePage() {
             relations, and record-keeping. That&apos;s powerful — but it also
             means more to learn, more to set up, and more tabs you&apos;ll never
             open. Our platform does three things: gallery pages, waitlist
-            management, and deposit collection. We put all our energy into making
+            management, and deposit tracking. We put all our energy into making
             those three features exceptional. Your public pages are beautiful and
             rank on Google. Your waitlist lets buyers check their position without
-            messaging you. Your deposits are handled securely through Stripe. Set
+            messaging you. Your deposits are tracked in one place. Set
             up takes minutes, not hours.
           </p>
         </section>
