@@ -3,6 +3,7 @@
 import { useState, useEffect, use } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { PhotoUpload } from "@/components/photo-upload";
 
 interface Dog {
   id: string;
@@ -23,6 +24,7 @@ export default function EditDogPage({ params }: { params: Promise<{ id: string }
   const [fetching, setFetching] = useState(true);
   const [error, setError] = useState("");
   const [dog, setDog] = useState<Dog | null>(null);
+  const [photos, setPhotos] = useState<string[]>([]);
 
   useEffect(() => {
     async function load() {
@@ -32,6 +34,7 @@ export default function EditDogPage({ params }: { params: Promise<{ id: string }
         const found = dogs.find((d) => d.id === id);
         if (found) {
           setDog(found);
+          setPhotos(found.photos || []);
         } else {
           setError("Dog not found");
         }
@@ -49,11 +52,6 @@ export default function EditDogPage({ params }: { params: Promise<{ id: string }
     setError("");
 
     const form = new FormData(e.currentTarget);
-    const photosRaw = (form.get("photos") as string) || "";
-    const photos = photosRaw
-      .split(",")
-      .map((s) => s.trim())
-      .filter(Boolean);
 
     const body = {
       name: form.get("name"),
@@ -153,11 +151,7 @@ export default function EditDogPage({ params }: { params: Promise<{ id: string }
           </select>
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Photo URLs</label>
-          <input name="photos" defaultValue={(dog.photos || []).join(", ")} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none" />
-          <p className="text-xs text-gray-400 mt-1">Separate multiple URLs with commas</p>
-        </div>
+        <PhotoUpload photos={photos} onChange={setPhotos} max={6} />
 
         <div className="pt-2">
           <button
