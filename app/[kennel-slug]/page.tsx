@@ -325,7 +325,7 @@ function Footer() {
     <footer className="border-t border-stone-200 py-10 text-center text-sm text-stone-400">
       <p>
         Powered by{" "}
-        <span className="font-semibold text-stone-600">Breeder Platform</span>
+        <span className="font-semibold text-stone-600">PawPage</span>
       </p>
       <p className="mt-1">
         Are you a breeder?{" "}

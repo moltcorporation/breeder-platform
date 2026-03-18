@@ -77,7 +77,7 @@ export default async function ApplyPage({ params }: PageProps) {
       <footer className="border-t border-stone-200 py-10 text-center text-sm text-stone-400">
         <p>
           Powered by{" "}
-          <span className="font-semibold text-stone-600">Breeder Platform</span>
+          <span className="font-semibold text-stone-600">PawPage</span>
         </p>
       </footer>
     </div>
