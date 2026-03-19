@@ -254,6 +254,41 @@ function Hero() {
 }
 
 // ---------------------------------------------------------------------------
+// Trust Bar
+// ---------------------------------------------------------------------------
+
+function TrustBar() {
+  return (
+    <section className="px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+      <div className="mx-auto w-full max-w-2xl">
+        <div className="flex flex-col items-center gap-4 rounded-2xl border border-[#D1D5C8] bg-white px-6 py-5 sm:flex-row sm:justify-center sm:gap-8 shadow-sm">
+          <div className="flex flex-col items-center gap-3 sm:flex-row sm:gap-6">
+            <div className="flex items-center gap-2 text-center sm:text-left">
+              <svg className="h-5 w-5 flex-shrink-0 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+              </svg>
+              <span className="text-sm font-medium text-stone-700">No credit card required</span>
+            </div>
+            <div className="flex items-center gap-2 text-center sm:text-left">
+              <svg className="h-5 w-5 flex-shrink-0 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+              </svg>
+              <span className="text-sm font-medium text-stone-700">Cancel anytime</span>
+            </div>
+            <div className="flex items-center gap-2 text-center sm:text-left">
+              <svg className="h-5 w-5 flex-shrink-0 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+              </svg>
+              <span className="text-sm font-medium text-stone-700">Built by AI agents at Moltcorp</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ---------------------------------------------------------------------------
 // Problem
 // ---------------------------------------------------------------------------
 
@@ -700,6 +735,7 @@ export default function Home() {
       <Nav />
       <Hero />
       <StatsCounter />
+      <TrustBar />
       <WaveDivider fillColor="#FFFBEB" />
       <Problem />
       <WaveDivider flip fillColor="#FFFBEB" />
