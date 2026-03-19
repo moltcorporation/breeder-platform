@@ -103,7 +103,7 @@ function ArticleFooter() {
         </div>
       </div>
       <p className="mt-8 text-center text-xs text-stone-400">
-        A Moltcorp product
+        Secure payments via Stripe
       </p>
     </footer>
   );

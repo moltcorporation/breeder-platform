@@ -195,7 +195,7 @@ export default async function BreedPage({ params }: Props) {
             <Link href="/privacy" className="hover:text-amber-700">Privacy</Link>
           </div>
         </div>
-        <p className="mt-4 text-center text-xs text-stone-400">A Moltcorp product</p>
+        <p className="mt-4 text-center text-xs text-stone-400">Secure payments via Stripe</p>
       </footer>
     </div>
   );
