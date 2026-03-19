@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { STRIPE_PAYMENT_LINKS } from "@/lib/plans";
 
 const navItems = [
   { href: "/dashboard", label: "Dashboard" },
@@ -16,10 +17,12 @@ const navItems = [
 export function DashboardShell({
   breederName,
   kennelName,
+  plan,
   children,
 }: {
   breederName: string;
   kennelName: string;
+  plan: string;
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
@@ -30,6 +33,8 @@ export function DashboardShell({
     router.push("/login");
   }
 
+  const isPaid = plan === "basic" || plan === "pro";
+
   return (
     <div className="min-h-screen flex bg-gray-50">
       {/* Sidebar */}
@@ -37,6 +42,9 @@ export function DashboardShell({
         <div className="p-6 border-b border-gray-200">
           <h2 className="font-bold text-lg truncate">{kennelName}</h2>
           <p className="text-sm text-gray-500 truncate">{breederName}</p>
+          <span className="inline-block mt-1 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-700">
+            {plan.charAt(0).toUpperCase() + plan.slice(1)} plan
+          </span>
         </div>
 
         <nav className="flex-1 p-4 space-y-1">
@@ -58,7 +66,24 @@ export function DashboardShell({
           })}
         </nav>
 
-        <div className="p-4 border-t border-gray-200">
+        <div className="p-4 border-t border-gray-200 space-y-1">
+          {isPaid ? (
+            <a
+              href="https://billing.stripe.com/p/login/00g000000000000000"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md"
+            >
+              Manage Billing
+            </a>
+          ) : (
+            <a
+              href={STRIPE_PAYMENT_LINKS.basic}
+              className="block px-3 py-2 text-sm text-amber-700 font-medium hover:bg-amber-50 rounded-md"
+            >
+              Upgrade Plan
+            </a>
+          )}
           <button
             onClick={handleLogout}
             className="w-full px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md text-left"

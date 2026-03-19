@@ -24,7 +24,9 @@ export const breeders = pgTable("breeders", {
   state: text("state"),
   bio: text("bio"),
   breeds: text("breeds").array(),
+  // Deprecated: not used — Stripe customer tracking is managed by Moltcorp platform
   stripeCustomerId: text("stripe_customer_id"),
+  // Pro/Basic access is verified via Moltcorp API; this column is synced on dashboard load
   plan: text("plan").default("free").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
