@@ -585,7 +585,7 @@ function Pricing() {
               </ul>
               <a
                 href={tier.ctaHref}
-                className={`mt-8 block rounded-full px-6 py-3 text-center text-sm font-semibold transition-all duration-300 ${
+                className={`mt-8 block rounded-full px-6 py-4 text-center text-sm font-semibold transition-all duration-300 ${
                   tier.highlighted
                     ? "bg-amber-600 text-white shadow-md shadow-amber-200/50 hover:bg-amber-700 hover:shadow-lg hover:shadow-amber-200/60"
                     : "bg-stone-100 text-stone-800 hover:bg-amber-50 hover:text-amber-800"
