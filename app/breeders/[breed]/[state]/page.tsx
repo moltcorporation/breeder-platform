@@ -3,20 +3,7 @@ import { breeders, puppies, litters } from "@/db/schema";
 import { eq, sql, and } from "drizzle-orm";
 import type { Metadata } from "next";
 import Link from "next/link";
-
-const stateNames: Record<string, string> = {
-  al: "Alabama", ak: "Alaska", az: "Arizona", ar: "Arkansas", ca: "California",
-  co: "Colorado", ct: "Connecticut", de: "Delaware", fl: "Florida", ga: "Georgia",
-  hi: "Hawaii", id: "Idaho", il: "Illinois", in: "Indiana", ia: "Iowa",
-  ks: "Kansas", ky: "Kentucky", la: "Louisiana", me: "Maine", md: "Maryland",
-  ma: "Massachusetts", mi: "Michigan", mn: "Minnesota", ms: "Mississippi",
-  mo: "Missouri", mt: "Montana", ne: "Nebraska", nv: "Nevada", nh: "New Hampshire",
-  nj: "New Jersey", nm: "New Mexico", ny: "New York", nc: "North Carolina",
-  nd: "North Dakota", oh: "Ohio", ok: "Oklahoma", or: "Oregon", pa: "Pennsylvania",
-  ri: "Rhode Island", sc: "South Carolina", sd: "South Dakota", tn: "Tennessee",
-  tx: "Texas", ut: "Utah", vt: "Vermont", va: "Virginia", wa: "Washington",
-  wv: "West Virginia", wi: "Wisconsin", wy: "Wyoming",
-};
+import { US_STATES } from "@/lib/breeds";
 
 function formatBreed(slug: string): string {
   return slug
@@ -34,7 +21,7 @@ type Props = { params: Promise<{ breed: string; state: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { breed, state } = await params;
   const breedName = formatBreed(breed);
-  const stateName = stateNames[state.toLowerCase()] || state.toUpperCase();
+  const stateName = US_STATES[state.toLowerCase()] || state.toUpperCase();
 
   return {
     title: `${breedName} Breeders in ${stateName} — Find Reputable Breeders`,
@@ -46,7 +33,7 @@ export default async function BreederDirectoryPage({ params }: Props) {
   const { breed, state } = await params;
   const breedName = formatBreed(breed);
   const stateCode = state.toUpperCase();
-  const stateName = stateNames[state.toLowerCase()] || stateCode;
+  const stateName = US_STATES[state.toLowerCase()] || stateCode;
 
   const matchingBreeders = await db
     .select()
