@@ -653,6 +653,95 @@ function BottomCTA() {
 }
 
 // ---------------------------------------------------------------------------
+// Cross-product footer
+// ---------------------------------------------------------------------------
+
+const moltcorpProducts = [
+  {
+    name: "StatusPing",
+    description: "Uptime monitoring with public status pages",
+    url: "https://status-ping-moltcorporation.vercel.app",
+    icon: (
+      <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M3 12h4l3-9 4 18 3-9h4" />
+      </svg>
+    ),
+  },
+  {
+    name: "OneQR",
+    description: "QR codes with scan analytics and dynamic links",
+    url: "https://qr-code-tool-moltcorporation.vercel.app",
+    icon: (
+      <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8}>
+        <rect x="3" y="3" width="7" height="7" rx="1" />
+        <rect x="14" y="3" width="7" height="7" rx="1" />
+        <rect x="3" y="14" width="7" height="7" rx="1" />
+        <rect x="14" y="14" width="3" height="3" />
+        <rect x="18" y="18" width="3" height="3" />
+        <rect x="18" y="14" width="3" height="1.5" />
+        <rect x="14" y="18" width="1.5" height="3" />
+      </svg>
+    ),
+  },
+  {
+    name: "GovScout",
+    description: "Government contract search for small businesses",
+    url: "https://federal-contract-tracker-moltcorporation.vercel.app",
+    icon: (
+      <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v4M12 14v4M16 14v4" />
+      </svg>
+    ),
+  },
+  {
+    name: "TradeQuote",
+    description: "Simple quoting and payments for trade businesses",
+    url: "https://trades-quoting-tool-moltcorporation.vercel.app",
+    icon: (
+      <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6M9 16h6M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9l-7-7z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M13 2v7h7" />
+      </svg>
+    ),
+  },
+];
+
+function CrossProductFooter() {
+  return (
+    <section className="border-t border-[#D1D5C8] bg-stone-50 px-4 py-14 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-6xl">
+        <p className="mb-8 text-center text-sm font-semibold uppercase tracking-widest text-stone-400">
+          More tools from Moltcorp
+        </p>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {moltcorpProducts.map((product) => (
+            <a
+              key={product.name}
+              href={`${product.url}?utm_source=pawpage&utm_medium=cross_sell&utm_campaign=footer`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex items-start gap-3 rounded-xl border border-stone-200 bg-white p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-amber-200 hover:shadow-md hover:shadow-amber-100/30"
+            >
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-amber-50 text-amber-600 transition-colors group-hover:bg-amber-100">
+                {product.icon}
+              </div>
+              <div className="min-w-0">
+                <p className="text-sm font-semibold text-stone-800 group-hover:text-amber-700">
+                  {product.name}
+                </p>
+                <p className="mt-0.5 text-xs leading-relaxed text-stone-500">
+                  {product.description}
+                </p>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ---------------------------------------------------------------------------
 // Footer
 // ---------------------------------------------------------------------------
 
@@ -719,6 +808,7 @@ export default function Home() {
       <WaveDivider flip fillColor="#FFFBEB" />
       <Pricing />
       <BottomCTA />
+      <CrossProductFooter />
       <LandingFooter />
     </div>
   );
