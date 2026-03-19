@@ -39,22 +39,22 @@ export default function FeedbackPage() {
   }
 
   const inputClass =
-    "w-full rounded-lg border border-zinc-300 bg-white px-3 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100";
+    "w-full rounded-lg border border-[#D1D5C8] bg-white px-3 py-2.5 text-sm text-stone-900 placeholder:text-stone-400 focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500";
 
   if (submitted) {
     return (
-      <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center" style={{ background: "linear-gradient(180deg, #FFFBEB 0%, #FFF7ED 100%)" }}>
         <div className="max-w-md px-4 text-center">
-          <div className="rounded-xl border border-green-200 bg-green-50 p-8 dark:border-green-900 dark:bg-green-950">
-            <h1 className="text-2xl font-bold text-green-800 dark:text-green-200">
+          <div className="rounded-2xl border border-amber-200 bg-amber-50 p-8 shadow-lg shadow-amber-100/40">
+            <h1 className="text-2xl font-bold text-amber-800">
               Thank you!
             </h1>
-            <p className="mt-2 text-green-700 dark:text-green-300">
+            <p className="mt-2 text-amber-700">
               Your feedback helps us build a better product.
             </p>
             <Link
               href="/"
-              className="mt-4 inline-block text-sm text-green-600 hover:text-green-800 dark:text-green-400"
+              className="mt-4 inline-block text-sm text-amber-600 hover:text-amber-800 transition"
             >
               &larr; Back to home
             </Link>
@@ -65,25 +65,25 @@ export default function FeedbackPage() {
   }
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950">
+    <div className="min-h-screen" style={{ background: "linear-gradient(180deg, #FFFBEB 0%, #FFF7ED 40%, #FFFFFF 100%)" }}>
       <div className="mx-auto max-w-lg px-4 py-16">
         <Link
           href="/"
-          className="text-sm text-zinc-500 hover:text-zinc-700 dark:text-zinc-400"
+          className="text-sm text-stone-500 hover:text-amber-700 transition"
         >
           &larr; Back
         </Link>
 
-        <h1 className="mt-4 text-2xl font-bold text-zinc-900 dark:text-zinc-50">
+        <h1 className="mt-4 text-2xl font-bold text-stone-800">
           Send Us Feedback
         </h1>
-        <p className="mt-2 text-zinc-600 dark:text-zinc-400">
+        <p className="mt-2 text-stone-600">
           Bug, feature request, or just want to say something? We read every
           message.
         </p>
 
         {error && (
-          <div className="mt-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-900 dark:bg-red-950 dark:text-red-300">
+          <div className="mt-4 rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
             {error}
           </div>
         )}
@@ -92,7 +92,7 @@ export default function FeedbackPage() {
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1"
+              className="block text-sm font-medium text-stone-700 mb-1"
             >
               Email (optional)
             </label>
@@ -108,7 +108,7 @@ export default function FeedbackPage() {
           <div>
             <label
               htmlFor="category"
-              className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1"
+              className="block text-sm font-medium text-stone-700 mb-1"
             >
               What kind of feedback?
             </label>
@@ -122,7 +122,7 @@ export default function FeedbackPage() {
           <div>
             <label
               htmlFor="intent"
-              className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1"
+              className="block text-sm font-medium text-stone-700 mb-1"
             >
               What were you trying to do?
             </label>
@@ -138,7 +138,7 @@ export default function FeedbackPage() {
           <div>
             <label
               htmlFor="message"
-              className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1"
+              className="block text-sm font-medium text-stone-700 mb-1"
             >
               Your message *
             </label>
@@ -155,7 +155,7 @@ export default function FeedbackPage() {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full rounded-lg bg-zinc-900 px-4 py-3 text-sm font-medium text-white hover:bg-zinc-800 disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+            className="w-full rounded-lg bg-amber-600 px-4 py-3 text-sm font-medium text-white hover:bg-amber-700 disabled:opacity-50 transition shadow-md shadow-amber-200/50 hover:shadow-lg hover:shadow-amber-200/60"
           >
             {submitting ? "Sending..." : "Send Feedback"}
           </button>
