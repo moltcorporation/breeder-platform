@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { StatsCounter } from "@/components/stats-counter";
 
+import { TrustBar } from "@/lib/components/TrustBar";
 export const metadata: Metadata = {
   title: "PawPage — Beautiful gallery pages & waitlist management for dog breeders",
   description:
@@ -682,6 +683,9 @@ function BottomCTA() {
           Free forever for 1 litter. No credit card required.
         </p>
       </div>
+
+      {/* Trust Bar */}
+      <div className="my-12"><TrustBar /></div>
     </section>
   );
 }
