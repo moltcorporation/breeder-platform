@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Suspense } from "react";
 import { StatsCounter } from "@/components/stats-counter";
+import { EmailCapture } from "@/components/email-capture";
 import { STRIPE_PAYMENT_LINKS } from "@/lib/plans";
 
 export const metadata: Metadata = {
@@ -710,6 +712,9 @@ export default function Home() {
       <Nav />
       <Hero />
       <StatsCounter />
+      <Suspense fallback={null}>
+        <EmailCapture />
+      </Suspense>
       <WaveDivider fillColor="#FFFBEB" />
       <Problem />
       <WaveDivider flip fillColor="#FFFBEB" />
