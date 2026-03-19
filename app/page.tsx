@@ -331,7 +331,7 @@ const features = [
     description:
       "Track deposits in one place. Record when buyers pay via Venmo, Zelle, or check — no more guessing who paid what.",
     icon: <DollarIcon className="h-7 w-7 text-amber-600" />,
-    badge: "Coming soon",
+    badge: null,
   },
 ];
 
