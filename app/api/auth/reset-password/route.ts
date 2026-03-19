@@ -54,16 +54,16 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Hash the new password
+    // Hash new password
     const passwordHash = await hashPassword(password);
 
-    // Update the breeder's password
+    // Update breeder password
     await db
       .update(breeders)
       .set({ passwordHash })
       .where(eq(breeders.id, resetToken.breederId));
 
-    // Mark the token as used
+    // Mark token as used
     await db
       .update(passwordResetTokens)
       .set({ usedAt: new Date() })

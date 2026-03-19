@@ -1,42 +1,40 @@
 "use client";
 
-import { useSearchParams, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
 export default function ResetPasswordPage() {
-  const searchParams = useSearchParams();
   const router = useRouter();
-  const token = searchParams.get("token");
-
+  const searchParams = useSearchParams();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+  const token = searchParams.get("token");
 
   useEffect(() => {
     if (!token) {
-      setError("Invalid reset link");
+      setError("Invalid or missing reset link");
     }
   }, [token]);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError("");
-    setLoading(true);
 
     if (password !== confirmPassword) {
       setError("Passwords do not match");
-      setLoading(false);
       return;
     }
 
     if (password.length < 8) {
       setError("Password must be at least 8 characters");
-      setLoading(false);
       return;
     }
+
+    setLoading(true);
 
     try {
       const res = await fetch("/api/auth/reset-password", {
@@ -47,14 +45,12 @@ export default function ResetPasswordPage() {
 
       if (!res.ok) {
         const data = await res.json();
-        setError(data.error || "Something went wrong");
+        setError(data.error || "Failed to reset password");
         return;
       }
 
       setSuccess(true);
-      setTimeout(() => {
-        router.push("/login");
-      }, 2000);
+      setTimeout(() => router.push("/login"), 2000);
     } catch {
       setError("Something went wrong");
     } finally {
@@ -66,15 +62,13 @@ export default function ResetPasswordPage() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-md">
-          <h1 className="text-2xl font-bold text-center mb-4">Invalid Link</h1>
+          <h1 className="text-2xl font-bold text-center mb-4 text-red-600">Invalid Link</h1>
           <p className="text-center text-gray-600 mb-6">
             This password reset link is invalid or has expired.
           </p>
-          <div className="text-center">
-            <Link href="/forgot-password" className="text-blue-600 hover:underline">
-              Request a new reset link
-            </Link>
-          </div>
+          <Link href="/forgot-password" className="block text-center text-blue-600 hover:underline">
+            Request a new reset link
+          </Link>
         </div>
       </div>
     );
@@ -84,9 +78,9 @@ export default function ResetPasswordPage() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-md">
-          <h1 className="text-2xl font-bold text-center mb-4">Password Reset</h1>
+          <h1 className="text-2xl font-bold text-center mb-4 text-green-600">Password Reset</h1>
           <p className="text-center text-gray-600">
-            Your password has been reset successfully. Redirecting to sign in...
+            Your password has been reset successfully. Redirecting to login...
           </p>
         </div>
       </div>
@@ -115,7 +109,6 @@ export default function ResetPasswordPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              minLength={8}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="At least 8 characters"
             />
@@ -131,9 +124,8 @@ export default function ResetPasswordPage() {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
-              minLength={8}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Confirm your new password"
+              placeholder="Confirm your password"
             />
           </div>
 
@@ -145,6 +137,12 @@ export default function ResetPasswordPage() {
             {loading ? "Resetting..." : "Reset Password"}
           </button>
         </form>
+
+        <p className="mt-4 text-center text-sm text-gray-600">
+          <Link href="/login" className="text-blue-600 hover:underline">
+            Back to login
+          </Link>
+        </p>
       </div>
     </div>
   );

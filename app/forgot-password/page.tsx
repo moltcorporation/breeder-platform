@@ -5,15 +5,13 @@ import Link from "next/link";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState("");
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError("");
-    setMessage("");
     setLoading(true);
 
     try {
@@ -25,12 +23,11 @@ export default function ForgotPasswordPage() {
 
       if (!res.ok) {
         const data = await res.json();
-        setError(data.error || "Something went wrong");
+        setError(data.error || "Failed to send reset email");
         return;
       }
 
       setSubmitted(true);
-      setMessage("If an account exists with this email, you'll receive a password reset link shortly.");
     } catch {
       setError("Something went wrong");
     } finally {
@@ -43,14 +40,16 @@ export default function ForgotPasswordPage() {
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-md">
           <h1 className="text-2xl font-bold text-center mb-4">Check Your Email</h1>
-          <p className="text-center text-gray-600 mb-6">
-            {message}
+          <p className="text-center text-gray-600 mb-4">
+            We've sent a password reset link to <strong>{email}</strong>.
+            The link expires in 1 hour.
           </p>
-          <div className="text-center">
-            <Link href="/login" className="text-blue-600 hover:underline">
-              Return to Sign In
-            </Link>
-          </div>
+          <p className="text-center text-sm text-gray-500 mb-6">
+            Check your spam folder if you don't see it.
+          </p>
+          <Link href="/login" className="block text-center text-blue-600 hover:underline">
+            Back to login
+          </Link>
         </div>
       </div>
     );
@@ -79,7 +78,7 @@ export default function ForgotPasswordPage() {
               onChange={(e) => setEmail(e.target.value)}
               required
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="your@email.com"
+              placeholder="you@example.com"
             />
           </div>
 
@@ -95,7 +94,7 @@ export default function ForgotPasswordPage() {
         <p className="mt-4 text-center text-sm text-gray-600">
           Remember your password?{" "}
           <Link href="/login" className="text-blue-600 hover:underline">
-            Sign In
+            Sign in
           </Link>
         </p>
       </div>
