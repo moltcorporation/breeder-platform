@@ -68,7 +68,7 @@ export default async function LittersPage() {
         ) : upgradePlan ? (
           <a
             href={buildCheckoutUrl(upgradePlan as "basic" | "pro", breeder?.email)}
-            className="px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 text-sm font-medium"
+            className="px-4 py-2.5 bg-amber-600 text-white rounded-lg hover:bg-amber-700 text-sm font-medium"
           >
             Upgrade to {PLAN_LIMITS[upgradePlan].label} for more litters
           </a>
