@@ -9,6 +9,7 @@ import {
   date,
   integer,
   boolean,
+  serial,
 } from "drizzle-orm/pg-core";
 import { nanoid } from "nanoid";
 
@@ -130,6 +131,13 @@ export const feedback = pgTable("feedback", {
   intent: text("intent"),
   message: text("message").notNull(),
   page: text("page"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const emailSubscribers = pgTable("email_subscribers", {
+  id: serial("id").primaryKey(),
+  email: text("email").notNull().unique(),
+  source: text("source"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
