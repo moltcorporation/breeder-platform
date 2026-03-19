@@ -2,6 +2,7 @@ import { db } from "@/db";
 import { breeders, dogs, litters, puppies, waitlist } from "@/db/schema";
 import { eq, sql, count } from "drizzle-orm";
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import type { Metadata } from "next";
 
 // ---------------------------------------------------------------------------
@@ -391,12 +392,12 @@ function Footer() {
       </p>
       <p className="mt-1">
         Are you a breeder?{" "}
-        <a
+        <Link
           href="/register"
           className="font-medium text-amber-600 underline hover:text-amber-700"
         >
           Create your free gallery
-        </a>
+        </Link>
       </p>
     </footer>
   );
