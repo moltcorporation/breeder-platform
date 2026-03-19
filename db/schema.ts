@@ -130,3 +130,16 @@ export const feedback = pgTable("feedback", {
   page: text("page"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
+
+export const passwordResetTokens = pgTable("password_reset_tokens", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => nanoid()),
+  breederId: text("breeder_id")
+    .notNull()
+    .references(() => breeders.id),
+  token: text("token").notNull().unique(),
+  expiresAt: timestamp("expires_at").notNull(),
+  usedAt: timestamp("used_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
