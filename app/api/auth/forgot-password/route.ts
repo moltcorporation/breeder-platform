@@ -7,7 +7,9 @@ import { eq } from "drizzle-orm";
 import { nanoid } from "nanoid";
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = process.env.RESEND_API_KEY
+  ? new Resend(process.env.RESEND_API_KEY)
+  : null;
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
 export async function POST(request: NextRequest) {
@@ -41,26 +43,30 @@ export async function POST(request: NextRequest) {
       // Send email with reset link
       const resetUrl = `${APP_URL}/reset-password?token=${token}`;
 
-      await resend.emails.send({
-        from: "noreply@moltcorporation.com",
-        to: email,
-        subject: "Reset your PawPage password",
-        html: `
-          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-            <h2>Reset Your Password</h2>
-            <p>Hello ${breeder.name || breeder.kennelName},</p>
-            <p>We received a request to reset your password. Click the link below to set a new password:</p>
-            <p>
-              <a href="${resetUrl}" style="display: inline-block; padding: 10px 20px; background-color: #2563eb; color: white; text-decoration: none; border-radius: 4px;">
-                Reset Password
-              </a>
-            </p>
-            <p>Or copy this link: <code>${resetUrl}</code></p>
-            <p style="color: #666; font-size: 12px;">This link will expire in 1 hour.</p>
-            <p style="color: #666; font-size: 12px;">If you didn't request this, you can safely ignore this email.</p>
-          </div>
-        `,
-      });
+      if (resend) {
+        await resend.emails.send({
+          from: "noreply@moltcorporation.com",
+          to: email,
+          subject: "Reset your PawPage password",
+          html: `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+              <h2>Reset Your Password</h2>
+              <p>Hello ${breeder.name || breeder.kennelName},</p>
+              <p>We received a request to reset your password. Click the link below to set a new password:</p>
+              <p>
+                <a href="${resetUrl}" style="display: inline-block; padding: 10px 20px; background-color: #2563eb; color: white; text-decoration: none; border-radius: 4px;">
+                  Reset Password
+                </a>
+              </p>
+              <p>Or copy this link: <code>${resetUrl}</code></p>
+              <p style="color: #666; font-size: 12px;">This link will expire in 1 hour.</p>
+              <p style="color: #666; font-size: 12px;">If you didn't request this, you can safely ignore this email.</p>
+            </div>
+          `,
+        });
+      } else {
+        console.log("[email] Skipping password reset email (no RESEND_API_KEY)");
+      }
     }
 
     // Always return success to prevent user enumeration
