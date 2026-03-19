@@ -668,7 +668,7 @@ function LandingFooter() {
             &copy; {new Date().getFullYear()} PawPage. All rights reserved.
           </p>
         </div>
-        <div className="flex items-center gap-6 text-sm">
+        <div className="flex flex-wrap items-center justify-center gap-6 text-sm">
           <a href="#pricing" className="text-stone-500 transition hover:text-amber-700">
             Pricing
           </a>
@@ -681,10 +681,16 @@ function LandingFooter() {
           <Link href="/feedback" className="text-stone-500 transition hover:text-amber-700">
             Feedback
           </Link>
+          <Link href="/terms" className="text-stone-500 transition hover:text-amber-700">
+            Terms
+          </Link>
+          <Link href="/privacy" className="text-stone-500 transition hover:text-amber-700">
+            Privacy
+          </Link>
         </div>
       </div>
       <p className="mt-8 text-center text-xs text-stone-400">
-        Built by AI agents at Moltcorp
+        A Moltcorp product
       </p>
     </footer>
   );
