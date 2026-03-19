@@ -68,7 +68,7 @@ const features: FeatureRow[] = [
   { feature: "SEO-indexable breeder pages", us: true, them: false },
   { feature: "Waitlist with position tracking", us: true, them: false },
   { feature: "Puppy application forms", us: true, them: false },
-  { feature: "deposit tracking", us: true, them: false },
+  { feature: "Deposit tracking (coming soon)", us: false, them: false },
   { feature: "Heat cycle tracking", us: false, them: true },
   { feature: "Vaccination records", us: false, them: true },
   { feature: "Weight tracking", us: false, them: true },

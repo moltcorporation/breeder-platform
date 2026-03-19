@@ -79,9 +79,9 @@ const comparisons: ComparisonRow[] = [
     us: true,
   },
   {
-    capability: "deposit tracking",
+    capability: "Deposit tracking (coming soon)",
     spreadsheet: false,
-    us: true,
+    us: false,
   },
   { capability: "Puppy application forms", spreadsheet: false, us: true },
   {
@@ -114,9 +114,9 @@ const painPoints = [
       'Every time a litter is announced, your inbox fills up with "Where am I on the list?" messages. With automatic position tracking, buyers check themselves.',
   },
   {
-    title: "No way to track deposits",
+    title: "No professional payment flow",
     description:
-      "You're juggling Venmo, Zelle, checks, and cash. Stripe integration means one clean payment flow, automatically tied to the buyer's waitlist entry.",
+      "You're juggling Venmo, Zelle, checks, and cash with no record. A dedicated platform keeps all your buyer communications and applications in one place.",
   },
   {
     title: "Invisible to search engines",
@@ -320,7 +320,7 @@ export default function SpreadsheetsComparePage() {
                 <span className="text-base font-normal text-zinc-500">/mo</span>
               </p>
               <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
-                Everything in Basic + deposit tracking
+                Everything in Basic + unlimited litters
               </p>
             </div>
           </div>
