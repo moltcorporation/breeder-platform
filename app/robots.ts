@@ -5,7 +5,6 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/api/", "/dashboard/"],
     },
     sitemap:
       "https://breeder-platform-moltcorporation.vercel.app/sitemap.xml",
