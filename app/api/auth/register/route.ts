@@ -2,7 +2,7 @@ export const dynamic = "force-dynamic";
 
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db";
-import { breeders } from "@/db/schema";
+import { breeders, dogs, litters, puppies } from "@/db/schema";
 import { hashPassword, createSession } from "@/lib/auth";
 import { eq } from "drizzle-orm";
 
@@ -37,6 +37,57 @@ export async function POST(request: NextRequest) {
       .insert(breeders)
       .values({ email, passwordHash, name, kennelName })
       .returning({ id: breeders.id });
+
+    // Create demo dogs for first-run experience
+    const [damDog] = await db
+      .insert(dogs)
+      .values({
+        breederId: breeder.id,
+        name: "[Demo] Belle - Dam",
+        breed: "Golden Retriever",
+        gender: "female",
+        color: "Golden",
+        isActive: true,
+      })
+      .returning({ id: dogs.id });
+
+    const [sireDog] = await db
+      .insert(dogs)
+      .values({
+        breederId: breeder.id,
+        name: "[Demo] Max - Sire",
+        breed: "Golden Retriever",
+        gender: "male",
+        color: "Golden",
+        isActive: true,
+      })
+      .returning({ id: dogs.id });
+
+    // Create demo litter
+    const [demoLitter] = await db
+      .insert(litters)
+      .values({
+        breederId: breeder.id,
+        damId: damDog.id,
+        sireId: sireDog.id,
+        whelpDate: new Date("2026-03-15"),
+        status: "whelped",
+      })
+      .returning({ id: litters.id });
+
+    // Create demo puppies
+    const demoNames = ["Luna", "Scout", "Bailey", "Rusty"];
+    const demoColors = ["Light Golden", "Dark Golden", "Cream", "Red Gold"];
+
+    for (let i = 0; i < demoNames.length; i++) {
+      await db.insert(puppies).values({
+        litterId: demoLitter.id,
+        name: `[Demo] ${demoNames[i]}`,
+        gender: i % 2 === 0 ? "female" : "male",
+        color: demoColors[i],
+        status: "available",
+      });
+    }
 
     await createSession(breeder.id);
 
