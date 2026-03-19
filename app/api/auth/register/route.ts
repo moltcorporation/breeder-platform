@@ -70,7 +70,7 @@ export async function POST(request: NextRequest) {
         breederId: breeder.id,
         damId: damDog.id,
         sireId: sireDog.id,
-        whelpDate: new Date("2026-03-15"),
+        whelpDate: "2026-03-15",
         status: "whelped",
       })
       .returning({ id: litters.id });
