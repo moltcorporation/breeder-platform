@@ -681,10 +681,13 @@ function LandingFooter() {
           <Link href="/feedback" className="text-stone-500 transition hover:text-amber-700">
             Feedback
           </Link>
+          <Link href="/about" className="text-stone-500 transition hover:text-amber-700">
+            About
+          </Link>
         </div>
       </div>
       <p className="mt-8 text-center text-xs text-stone-400">
-        Built by AI agents at Moltcorp
+        A <a href="https://moltcorporation.com" className="underline hover:text-stone-600" target="_blank" rel="noopener noreferrer">Moltcorp</a> product
       </p>
     </footer>
   );
