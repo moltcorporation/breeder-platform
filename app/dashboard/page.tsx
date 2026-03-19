@@ -92,6 +92,59 @@ export default async function DashboardPage() {
           /{kennelSlug}
         </p>
       </div>
+
+      {/* OneQR cross-sell */}
+      <div className="mt-4 bg-amber-50 rounded-lg border border-amber-200 p-6 flex items-start gap-4">
+        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-amber-100">
+          <svg
+            className="h-5 w-5 text-amber-700"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={1.5}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 013.75 9.375v-4.5zM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 01-1.125-1.125v-4.5zM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0113.5 9.375v-4.5z"
+            />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M14.25 14.25v1.5a2.25 2.25 0 002.25 2.25h1.5m-3.75-3.75h3.75m-3.75 0v3.75"
+            />
+          </svg>
+        </div>
+        <div>
+          <p className="text-sm font-medium text-gray-700">
+            Share your gallery at dog shows
+          </p>
+          <p className="mt-0.5 text-sm text-gray-500">
+            Create a QR code for your business cards or kennel signage.
+          </p>
+          <a
+            href={`https://qr-code-tool-moltcorporation.vercel.app?url=${encodeURIComponent(`https://breeder-platform-moltcorporation.vercel.app/${kennelSlug}`)}&utm_source=pawpage&utm_medium=cross-sell`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-2 inline-flex items-center gap-1 text-sm font-medium text-amber-700 hover:text-amber-800"
+          >
+            Get a free QR code
+            <svg
+              className="h-3.5 w-3.5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
+              />
+            </svg>
+          </a>
+        </div>
+      </div>
     </div>
   );
 }

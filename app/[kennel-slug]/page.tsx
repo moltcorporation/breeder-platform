@@ -320,6 +320,68 @@ function AboutSection({ breeder }: { breeder: BreederRow }) {
   );
 }
 
+function QRCrossSellCTA({ galleryUrl }: { galleryUrl: string }) {
+  const oneqrBase = "https://qr-code-tool-moltcorporation.vercel.app";
+  const oneqrLink = `${oneqrBase}?url=${encodeURIComponent(galleryUrl)}&utm_source=pawpage&utm_medium=cross-sell`;
+
+  return (
+    <section className="rounded-2xl border border-stone-200 bg-stone-50 p-6 sm:p-8">
+      <div className="flex items-start gap-4">
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-amber-100">
+          <svg
+            className="h-5 w-5 text-amber-700"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={1.5}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 013.75 9.375v-4.5zM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 01-1.125-1.125v-4.5zM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0113.5 9.375v-4.5z"
+            />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M14.25 14.25v1.5a2.25 2.25 0 002.25 2.25h1.5m-3.75-3.75h3.75m-3.75 0v3.75"
+            />
+          </svg>
+        </div>
+        <div>
+          <h3 className="font-semibold text-stone-900">
+            Share this page at dog shows
+          </h3>
+          <p className="mt-1 text-sm text-stone-600">
+            Get a QR code for your kennel signage or business cards — visitors
+            scan and see your gallery instantly.
+          </p>
+          <a
+            href={oneqrLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-amber-700 hover:text-amber-800"
+          >
+            Create a free QR code
+            <svg
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
+              />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Footer() {
   return (
     <footer className="border-t border-stone-200 py-10 text-center text-sm text-stone-400">
@@ -406,6 +468,9 @@ export default async function KennelPage({ params }: PageProps) {
           />
           <AboutSection breeder={breeder} />
           <WaitlistCTA slug={slug} waitlistCount={waitlistCount} />
+          <QRCrossSellCTA
+            galleryUrl={`https://breeder-platform-moltcorporation.vercel.app/${slug}`}
+          />
         </div>
       </main>
 
