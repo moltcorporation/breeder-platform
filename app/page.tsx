@@ -672,6 +672,9 @@ function LandingFooter() {
           <a href="#pricing" className="text-stone-500 transition hover:text-amber-700">
             Pricing
           </a>
+          <Link href="/about" className="text-stone-500 transition hover:text-amber-700">
+            About
+          </Link>
           <Link href="/login" className="text-stone-500 transition hover:text-amber-700">
             Login
           </Link>
@@ -680,6 +683,12 @@ function LandingFooter() {
           </Link>
           <Link href="/feedback" className="text-stone-500 transition hover:text-amber-700">
             Feedback
+          </Link>
+          <Link href="/terms" className="text-stone-500 transition hover:text-amber-700">
+            Terms
+          </Link>
+          <Link href="/privacy" className="text-stone-500 transition hover:text-amber-700">
+            Privacy
           </Link>
         </div>
       </div>

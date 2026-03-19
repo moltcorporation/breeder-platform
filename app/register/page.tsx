@@ -121,6 +121,18 @@ export default function RegisterPage() {
             Sign in
           </Link>
         </p>
+
+        <p className="mt-3 text-center text-xs text-gray-400">
+          By creating an account, you agree to our{" "}
+          <Link href="/terms" className="text-gray-500 underline hover:text-gray-700">
+            Terms of Service
+          </Link>{" "}
+          and{" "}
+          <Link href="/privacy" className="text-gray-500 underline hover:text-gray-700">
+            Privacy Policy
+          </Link>
+          .
+        </p>
       </div>
     </div>
   );
