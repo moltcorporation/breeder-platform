@@ -516,9 +516,6 @@ const tiers = [
     features: [
       "Unlimited litters",
       "Everything in Basic",
-      "deposit tracking",
-      "Contracts",
-      "Custom domain",
     ],
     cta: "Start Pro",
     ctaHref: STRIPE_PAYMENT_LINKS.pro,
