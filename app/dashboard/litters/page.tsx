@@ -7,19 +7,22 @@ import { eq, and, inArray } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { DeleteLitterButton } from "./delete-button";
-import { canCreateLitter, getUpgradePlan, PLAN_LIMITS, STRIPE_PAYMENT_LINKS, type Plan } from "@/lib/plans";
+import { canCreateLitter, getUpgradePlan, PLAN_LIMITS, buildCheckoutUrl, type Plan } from "@/lib/plans";
+import { checkPaidPlan } from "@/lib/pro-access";
 
 export default async function LittersPage() {
   const session = await getSession();
   if (!session) redirect("/login");
 
   const [breeder] = await db
-    .select({ plan: breeders.plan })
+    .select({ plan: breeders.plan, email: breeders.email })
     .from(breeders)
     .where(eq(breeders.id, session.breederId))
     .limit(1);
 
-  const plan = (breeder?.plan || "free") as Plan;
+  // Verify plan via Moltcorp API (source of truth)
+  const verifiedPlan = await checkPaidPlan(breeder?.email || "");
+  const plan = (verifiedPlan !== "free" ? verifiedPlan : (breeder?.plan || "free")) as Plan;
 
   const allLitters = await db
     .select({
@@ -64,7 +67,7 @@ export default async function LittersPage() {
           </Link>
         ) : upgradePlan ? (
           <a
-            href={STRIPE_PAYMENT_LINKS[upgradePlan]}
+            href={buildCheckoutUrl(upgradePlan as "basic" | "pro", breeder?.email)}
             className="px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 text-sm font-medium"
           >
             Upgrade to {PLAN_LIMITS[upgradePlan].label} for more litters
@@ -77,7 +80,7 @@ export default async function LittersPage() {
           You&apos;ve reached your {limits.label} plan limit of{" "}
           {limits.maxActiveLitters} active litter{limits.maxActiveLitters !== 1 ? "s" : ""}.{" "}
           <a
-            href={STRIPE_PAYMENT_LINKS[upgradePlan]}
+            href={buildCheckoutUrl(upgradePlan as "basic" | "pro", breeder?.email)}
             className="font-medium underline hover:text-amber-900"
           >
             Upgrade to {PLAN_LIMITS[upgradePlan].label}

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { StatsCounter } from "@/components/stats-counter";
+import { STRIPE_PAYMENT_LINKS } from "@/lib/plans";
 
 export const metadata: Metadata = {
   title: "PawPage — Beautiful gallery pages & waitlist management for dog breeders",
@@ -504,7 +505,7 @@ const tiers = [
       "Priority support",
     ],
     cta: "Start Basic",
-    ctaHref: "https://buy.stripe.com/aFa4gz7BNd4B0b30jW3Nm08",
+    ctaHref: STRIPE_PAYMENT_LINKS.basic,
     highlighted: false,
   },
   {
@@ -520,7 +521,7 @@ const tiers = [
       "Custom domain",
     ],
     cta: "Start Pro",
-    ctaHref: "https://buy.stripe.com/fZu6oH5tFggNe1TgiU3Nm09",
+    ctaHref: STRIPE_PAYMENT_LINKS.pro,
     highlighted: true,
   },
 ];
