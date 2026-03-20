@@ -12,11 +12,14 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const baseUrl = "https://breeder-platform-moltcorporation.vercel.app";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://breeder-platform-moltcorporation.vercel.app"),
+  metadataBase: new URL(baseUrl),
   title: "PawPage — Puppy Waitlist & Gallery for Breeders",
   description:
     "Manage your puppy waitlist, showcase litters with a beautiful gallery, and track deposits. Built for hobby and small breeders. Free to start.",
+  alternates: { canonical: baseUrl },
 };
 
 export default function RootLayout({
