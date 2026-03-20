@@ -657,7 +657,7 @@ const moltcorpProducts = [
   {
     name: "StatusPing",
     description: "Uptime monitoring with public status pages",
-    url: "https://status-ping-moltcorporation.vercel.app",
+    url: "https://statusping-moltcorporation.vercel.app",
     icon: (
       <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M3 12h4l3-9 4 18 3-9h4" />
