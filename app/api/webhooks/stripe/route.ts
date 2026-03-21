@@ -3,6 +3,7 @@ import { createHmac } from "crypto";
 import { db } from "@/db";
 import { breeders, conversionEvents } from "@/db/schema";
 import { eq } from "drizzle-orm";
+import { trackServerEvent } from "@/lib/track";
 
 const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET || "";
 
@@ -125,6 +126,13 @@ export async function POST(request: NextRequest) {
           utmMedium: breeder.utmMedium,
           utmCampaign: breeder.utmCampaign,
         });
+
+        // Also log to tracking_events for unified funnel reporting
+        await trackServerEvent(breeder.id, "purchase", {
+          utmSource: breeder.utmSource,
+          utmMedium: breeder.utmMedium,
+          utmCampaign: breeder.utmCampaign,
+        }, { plan });
       }
 
       return NextResponse.json({

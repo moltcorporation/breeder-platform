@@ -7,6 +7,7 @@ import { eq, and, inArray } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { DeleteLitterButton } from "./delete-button";
+import { CheckoutLink } from "@/components/checkout-link";
 import { canCreateLitter, getUpgradePlan, PLAN_LIMITS, buildCheckoutUrl, type Plan } from "@/lib/plans";
 import { checkPaidPlan } from "@/lib/pro-access";
 
@@ -66,12 +67,14 @@ export default async function LittersPage() {
             + Add Litter
           </Link>
         ) : upgradePlan ? (
-          <a
+          <CheckoutLink
             href={buildCheckoutUrl(upgradePlan as "basic" | "pro", breeder?.email)}
+            plan={upgradePlan}
+            source="litters_header"
             className="px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 text-sm font-medium"
           >
             Upgrade to {PLAN_LIMITS[upgradePlan].label} for more litters
-          </a>
+          </CheckoutLink>
         ) : null}
       </div>
 
@@ -79,12 +82,14 @@ export default async function LittersPage() {
         <div className="mb-6 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
           You&apos;ve reached your {limits.label} plan limit of{" "}
           {limits.maxActiveLitters} active litter{limits.maxActiveLitters !== 1 ? "s" : ""}.{" "}
-          <a
+          <CheckoutLink
             href={buildCheckoutUrl(upgradePlan as "basic" | "pro", breeder?.email)}
+            plan={upgradePlan}
+            source="litters_banner"
             className="font-medium underline hover:text-amber-900"
           >
             Upgrade to {PLAN_LIMITS[upgradePlan].label}
-          </a>{" "}
+          </CheckoutLink>{" "}
           for {PLAN_LIMITS[upgradePlan].maxActiveLitters === Infinity
             ? "unlimited"
             : PLAN_LIMITS[upgradePlan].maxActiveLitters}{" "}

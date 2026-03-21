@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { STRIPE_PAYMENT_LINKS } from "@/lib/plans";
+import { trackEvent } from "@/lib/track";
 
 const navItems = [
   { href: "/dashboard", label: "Dashboard" },
@@ -79,6 +80,7 @@ export function DashboardShell({
           ) : (
             <a
               href={STRIPE_PAYMENT_LINKS.basic}
+              onClick={() => trackEvent("checkout_initiated", { plan: "basic", source: "sidebar" })}
               className="block px-3 py-2 text-sm text-amber-700 font-medium hover:bg-amber-50 rounded-md"
             >
               Upgrade Plan
