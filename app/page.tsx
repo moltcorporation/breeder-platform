@@ -618,7 +618,7 @@ const tiers = [
       "3 active litters",
       "Everything in Free",
       "Waitlist management",
-      "Priority support",
+      "48-hour email support",
     ],
     cta: "Start Basic",
     ctaHref: STRIPE_PAYMENT_LINKS.basic,
@@ -1136,6 +1136,9 @@ function LandingFooter() {
           </Link>
           <Link href="/guides/breeder-waitlist" className="text-stone-500 transition hover:text-amber-700">
             Waitlist Guide
+          </Link>
+          <Link href="/contact" className="text-stone-500 transition hover:text-amber-700">
+            Contact
           </Link>
           <Link href="/feedback" className="text-stone-500 transition hover:text-amber-700">
             Feedback

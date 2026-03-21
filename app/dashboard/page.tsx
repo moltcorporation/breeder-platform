@@ -141,6 +141,20 @@ export default async function DashboardPage() {
         </p>
       </div>
 
+      {/* Contact support */}
+      <div className="mt-4 bg-white rounded-lg border border-gray-200 p-4 flex items-center justify-between">
+        <div>
+          <p className="text-sm font-medium text-gray-700">Need help?</p>
+          <p className="text-xs text-gray-400">We respond within 48 hours</p>
+        </div>
+        <Link
+          href="/contact"
+          className="text-sm font-medium text-amber-700 hover:text-amber-800"
+        >
+          Contact Support &rarr;
+        </Link>
+      </div>
+
       {/* OneQR cross-sell */}
       <div className="mt-4 bg-amber-50 rounded-lg border border-amber-200 p-6 flex items-start gap-4">
         <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-amber-100">
