@@ -70,7 +70,7 @@ export function DashboardShell({
         <div className="p-4 border-t border-gray-200 space-y-1">
           {isPaid ? (
             <a
-              href="https://billing.stripe.com/p/login/00g000000000000000"
+              href={process.env.NEXT_PUBLIC_STRIPE_PORTAL_LINK || "https://billing.stripe.com/p/login/00g000000000000000"}
               target="_blank"
               rel="noopener noreferrer"
               className="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md"
