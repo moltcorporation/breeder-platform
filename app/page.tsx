@@ -298,27 +298,30 @@ function TrustBar() {
 }
 
 // ---------------------------------------------------------------------------
-// Featured Breeders
+// How It Works
 // ---------------------------------------------------------------------------
 
-const featuredBreeders = [
+const steps = [
   {
-    kennel: "Sunrise Goldens",
-    breed: "Golden Retriever",
-    location: "Austin, TX",
-    stat: "40 families on waitlist",
+    step: "1",
+    icon: GalleryIcon,
+    title: "Create your gallery",
+    description:
+      "Sign up free, add your litter photos and health info. Your professional kennel page is live in minutes.",
   },
   {
-    kennel: "Blue Ridge Cavaliers",
-    breed: "Cavalier King Charles",
-    location: "Asheville, NC",
-    stat: "3 litters managed",
+    step: "2",
+    icon: ClipboardIcon,
+    title: "Accept applications",
+    description:
+      "Share your page link. Buyers fill out your application form and join the waitlist automatically.",
   },
   {
-    kennel: "Pacific Paws Labs",
-    breed: "Labrador Retriever",
-    location: "Portland, OR",
-    stat: "120+ deposits collected",
+    step: "3",
+    icon: DollarIcon,
+    title: "Collect deposits",
+    description:
+      "Buyers pay securely through Stripe. No chasing, no screenshots — you see every deposit instantly.",
   },
 ];
 
@@ -328,36 +331,30 @@ function FeaturedBreeders() {
       <div className="mx-auto max-w-6xl">
         <div className="text-center">
           <div className="mx-auto mb-4 flex items-center justify-center gap-2 text-sm font-semibold uppercase tracking-widest text-amber-700">
-            <HomeIcon className="h-5 w-5" />
-            Community
+            <PawPrintIcon className="h-5 w-5" />
+            How It Works
           </div>
           <h2 className="text-3xl font-bold tracking-tight text-stone-800 sm:text-4xl">
-            Kennels powered by PawPage
+            Up and running in 3 steps
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-stone-600">
-            Real breeders running their kennels on PawPage every day.
+            No tech skills needed. If you can post a photo, you can set up PawPage.
           </p>
         </div>
         <div className="mt-14 grid gap-6 sm:grid-cols-3">
-          {featuredBreeders.map((b) => (
+          {steps.map((s) => (
             <div
-              key={b.kennel}
+              key={s.step}
               className="rounded-2xl border border-[#D1D5C8] bg-white p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
             >
               <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-amber-100 to-orange-50">
-                <PawPrintIcon className="h-7 w-7 text-amber-600" />
+                <span className="text-xl font-bold text-amber-600">{s.step}</span>
               </div>
-              <h3 className="mt-4 text-lg font-semibold text-stone-800">{b.kennel}</h3>
-              <p className="mt-1 text-sm text-stone-500">{b.breed} &middot; {b.location}</p>
-              <div className="mt-4 rounded-lg bg-amber-50 px-3 py-2">
-                <p className="text-sm font-medium text-amber-800">{b.stat}</p>
-              </div>
+              <h3 className="mt-4 text-lg font-semibold text-stone-800">{s.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-stone-600">{s.description}</p>
             </div>
           ))}
         </div>
-        <p className="mt-6 text-center text-xs text-stone-400">
-          Representative examples based on typical PawPage usage
-        </p>
       </div>
     </section>
   );
@@ -778,27 +775,27 @@ function WhyBreeders() {
 }
 
 // ---------------------------------------------------------------------------
-// Testimonials
+// Why Breeders Switch
 // ---------------------------------------------------------------------------
 
-const testimonials = [
+const switchReasons = [
   {
-    quote:
-      "With 50+ families on our waitlist, keeping track in a spreadsheet was a nightmare. PawPage lets every family see their position and we went from 20 DMs a day to almost none.",
-    name: "Sarah M.",
-    detail: "Golden Retriever breeder, Texas",
+    icon: ListIcon,
+    title: "Waitlists without the chaos",
+    description:
+      "Buyers check their own position instead of texting you. One dashboard replaces the spreadsheet, the DMs, and the sticky notes.",
   },
   {
-    quote:
-      "I'm a small hobby breeder — two Cavalier litters a year. I replaced my entire spreadsheet system in one afternoon. Application forms, waitlist, gallery — all in one place.",
-    name: "Mike & Julie R.",
-    detail: "Cavalier King Charles Spaniel breeders, Ohio",
+    icon: DollarIcon,
+    title: "Deposits that actually arrive",
+    description:
+      "Secure Stripe payments replace Venmo screenshots and \"I'll send it tomorrow\" texts. You see every deposit the moment it lands.",
   },
   {
-    quote:
-      "We collected our first online deposit through PawPage last month. No more chasing Venmo screenshots — buyers pay, we see it instantly. Game changer for our Labrador kennel.",
-    name: "Dana K.",
-    detail: "Labrador kennel owner, Washington",
+    icon: GalleryIcon,
+    title: "A gallery that sells itself",
+    description:
+      "Professional litter pages with photos, health info, and application forms. Buyers see a real kennel — not a Facebook album.",
   },
 ];
 
@@ -809,31 +806,30 @@ function Testimonials() {
         <div className="text-center">
           <div className="mx-auto mb-4 flex items-center justify-center gap-2 text-sm font-semibold uppercase tracking-widest text-amber-700">
             <HeartIcon className="h-5 w-5" />
-            From Breeders
+            The Switch
           </div>
           <h2 className="text-3xl font-bold tracking-tight text-stone-800 sm:text-4xl">
-            Breeders love PawPage
+            3 reasons breeders switch from spreadsheets
           </h2>
         </div>
         <div className="mt-14 grid gap-8 sm:grid-cols-3">
-          {testimonials.map((t) => (
+          {switchReasons.map((r) => (
             <div
-              key={t.name}
+              key={r.title}
               className="rounded-2xl border border-[#D1D5C8] bg-white p-8 shadow-sm"
             >
-              <p className="leading-relaxed text-stone-600">
-                &ldquo;{t.quote}&rdquo;
-              </p>
-              <div className="mt-6 border-t border-stone-100 pt-4">
-                <p className="font-semibold text-stone-800">{t.name}</p>
-                <p className="text-sm text-stone-500">{t.detail}</p>
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-amber-100 to-orange-50">
+                <r.icon className="h-6 w-6 text-amber-600" />
               </div>
+              <h3 className="mt-4 text-lg font-semibold text-stone-800">
+                {r.title}
+              </h3>
+              <p className="mt-2 leading-relaxed text-stone-600">
+                {r.description}
+              </p>
             </div>
           ))}
         </div>
-        <p className="mt-6 text-center text-xs text-stone-400">
-          Illustrative examples based on common breeder experiences
-        </p>
       </div>
     </section>
   );
