@@ -27,6 +27,7 @@ export function OnboardingWizard({
   const [copied, setCopied] = useState(false);
 
   // Step 1: Kennel profile
+  const [kennelName, setKennelName] = useState(breeder.kennelName || "");
   const [bio, setBio] = useState(breeder.bio || "");
   const [city, setCity] = useState(breeder.city || "");
   const [state, setState] = useState(breeder.state || "");
@@ -47,9 +48,10 @@ export function OnboardingWizard({
   async function saveProfile() {
     setSaving(true);
     await fetch("/api/profile", {
-      method: "PATCH",
+      method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
+        kennelName: kennelName || breeder.kennelName,
         bio,
         city,
         state,
@@ -129,6 +131,17 @@ export function OnboardingWizard({
         <div className="bg-white rounded-xl border border-gray-200 p-6">
           <h2 className="text-lg font-semibold mb-4">Set up your kennel</h2>
           <div className="space-y-4">
+            <div>
+              <label htmlFor="kennelName" className={labelClass}>Kennel Name</label>
+              <input
+                id="kennelName"
+                type="text"
+                value={kennelName}
+                onChange={(e) => setKennelName(e.target.value)}
+                placeholder="Sunshine Golden Retrievers"
+                className={inputClass}
+              />
+            </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label htmlFor="city" className={labelClass}>City</label>
