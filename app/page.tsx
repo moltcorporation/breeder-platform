@@ -247,6 +247,14 @@ function Hero() {
         <p className="mt-4 text-sm text-stone-500">
           Free forever for 1 litter. No credit card required.
         </p>
+        <p className="mt-3">
+          <Link
+            href="/demo"
+            className="text-sm font-medium text-amber-700 underline decoration-amber-300 underline-offset-2 transition hover:text-amber-800 hover:decoration-amber-500"
+          >
+            See a live example &rarr;
+          </Link>
+        </p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-6 text-sm text-stone-500">
           <span className="flex items-center gap-2">
             <ShieldCheckIcon className="h-4 w-4 text-amber-600" />
