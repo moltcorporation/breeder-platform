@@ -5,6 +5,7 @@ import { db } from "@/db";
 import { breeders, dogs, litters, puppies, conversionEvents } from "@/db/schema";
 import { hashPassword, createSession } from "@/lib/auth";
 import { trackServerEvent } from "@/lib/track";
+import { scheduleDrip } from "@/lib/drip";
 import { eq } from "drizzle-orm";
 
 export async function POST(request: NextRequest) {
@@ -111,6 +112,11 @@ export async function POST(request: NextRequest) {
       utmMedium: utm_medium || null,
       utmCampaign: utm_campaign || null,
     });
+
+    // Schedule drip email sequence (non-blocking)
+    await scheduleDrip(breeder.id).catch((err) =>
+      console.error("Failed to schedule drip for breeder", breeder.id, err),
+    );
 
     // Also log to tracking_events for unified funnel reporting
     await trackServerEvent(breeder.id, "signup", {

@@ -9,6 +9,8 @@ import {
   date,
   integer,
   boolean,
+  index,
+  serial,
 } from "drizzle-orm/pg-core";
 import { nanoid } from "nanoid";
 
@@ -175,5 +177,29 @@ export const passwordResetTokens = pgTable("password_reset_tokens", {
   token: text("token").notNull().unique(),
   expiresAt: timestamp("expires_at").notNull(),
   usedAt: timestamp("used_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const dripSchedule = pgTable(
+  "drip_schedule",
+  {
+    id: serial("id").primaryKey(),
+    breederId: text("breeder_id")
+      .notNull()
+      .references(() => breeders.id),
+    emailStep: integer("email_step").notNull(),
+    sendAt: timestamp("send_at").notNull(),
+    sentAt: timestamp("sent_at"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [index("idx_drip_schedule_pending").on(table.sendAt)],
+);
+
+export const dripUnsubscribes = pgTable("drip_unsubscribes", {
+  id: serial("id").primaryKey(),
+  breederId: text("breeder_id")
+    .notNull()
+    .unique()
+    .references(() => breeders.id),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
