@@ -53,6 +53,21 @@ export default function AboutPage() {
             </p>
           </section>
 
+          <div className="rounded-xl bg-amber-50 border border-amber-200 p-6 text-center">
+            <p className="text-lg font-semibold text-stone-800">
+              Ready to simplify your breeder business?
+            </p>
+            <p className="mt-1 text-sm text-stone-600">
+              Replace spreadsheets and DMs with one clean tool.
+            </p>
+            <Link
+              href="/register"
+              className="mt-4 inline-block rounded-lg bg-amber-600 px-6 py-2.5 text-sm font-semibold text-white shadow hover:bg-amber-700 transition-colors"
+            >
+              Create your free gallery today
+            </Link>
+          </div>
+
           <section>
             <h2 className="text-xl font-semibold text-stone-800">
               What you get
