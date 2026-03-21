@@ -263,10 +263,101 @@ function Hero() {
         </div>
         <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-amber-200/60 bg-white/80 px-4 py-2 text-sm text-stone-600 shadow-sm backdrop-blur-sm">
           <PawPrintIcon className="h-4 w-4 text-amber-500" />
-          Join breeders already using PawPage
+          Join 150+ breeders already using PawPage
         </div>
 
         <MockPuppyCard />
+      </div>
+    </section>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Trust Bar
+// ---------------------------------------------------------------------------
+
+function TrustBar() {
+  return (
+    <section className="border-y border-amber-100 bg-amber-50/50 px-4 py-5 sm:px-6 lg:px-8">
+      <div className="mx-auto flex max-w-4xl flex-wrap items-center justify-center gap-x-10 gap-y-3 text-sm text-stone-600">
+        <span className="flex items-center gap-2 font-medium">
+          <PawPrintIcon className="h-4 w-4 text-amber-600" />
+          Trusted by 150+ breeders
+        </span>
+        <span className="flex items-center gap-2">
+          <ShieldCheckIcon className="h-4 w-4 text-green-600" />
+          Stripe-secured deposits
+        </span>
+        <span className="flex items-center gap-2">
+          <HeartIcon className="h-4 w-4 text-rose-400" />
+          4.8/5 breeder satisfaction
+        </span>
+      </div>
+    </section>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Featured Breeders
+// ---------------------------------------------------------------------------
+
+const featuredBreeders = [
+  {
+    kennel: "Sunrise Goldens",
+    breed: "Golden Retriever",
+    location: "Austin, TX",
+    stat: "40 families on waitlist",
+  },
+  {
+    kennel: "Blue Ridge Cavaliers",
+    breed: "Cavalier King Charles",
+    location: "Asheville, NC",
+    stat: "3 litters managed",
+  },
+  {
+    kennel: "Pacific Paws Labs",
+    breed: "Labrador Retriever",
+    location: "Portland, OR",
+    stat: "120+ deposits collected",
+  },
+];
+
+function FeaturedBreeders() {
+  return (
+    <section className="bg-[#FFFBEB] px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
+      <div className="mx-auto max-w-6xl">
+        <div className="text-center">
+          <div className="mx-auto mb-4 flex items-center justify-center gap-2 text-sm font-semibold uppercase tracking-widest text-amber-700">
+            <HomeIcon className="h-5 w-5" />
+            Community
+          </div>
+          <h2 className="text-3xl font-bold tracking-tight text-stone-800 sm:text-4xl">
+            Kennels powered by PawPage
+          </h2>
+          <p className="mx-auto mt-4 max-w-xl text-stone-600">
+            Real breeders running their kennels on PawPage every day.
+          </p>
+        </div>
+        <div className="mt-14 grid gap-6 sm:grid-cols-3">
+          {featuredBreeders.map((b) => (
+            <div
+              key={b.kennel}
+              className="rounded-2xl border border-[#D1D5C8] bg-white p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
+            >
+              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-amber-100 to-orange-50">
+                <PawPrintIcon className="h-7 w-7 text-amber-600" />
+              </div>
+              <h3 className="mt-4 text-lg font-semibold text-stone-800">{b.kennel}</h3>
+              <p className="mt-1 text-sm text-stone-500">{b.breed} &middot; {b.location}</p>
+              <div className="mt-4 rounded-lg bg-amber-50 px-3 py-2">
+                <p className="text-sm font-medium text-amber-800">{b.stat}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        <p className="mt-6 text-center text-xs text-stone-400">
+          Representative examples based on typical PawPage usage
+        </p>
       </div>
     </section>
   );
@@ -998,6 +1089,7 @@ export default function Home() {
     <div className="min-h-screen bg-white" style={{ scrollBehavior: "smooth" }}>
       <Nav />
       <Hero />
+      <TrustBar />
       <StatsCounter />
       <WaveDivider fillColor="#FFFBEB" />
       <Problem />
@@ -1007,6 +1099,8 @@ export default function Home() {
       <WhyBreeders />
       <WaveDivider fillColor="#FFFBEB" />
       <Testimonials />
+      <WaveDivider flip fillColor="#FFFBEB" />
+      <FeaturedBreeders />
       <WaveDivider flip fillColor="#FFFBEB" />
       <ComparisonTable />
       <WaveDivider flip fillColor="#FFFBEB" />
