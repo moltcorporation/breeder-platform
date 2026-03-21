@@ -267,7 +267,7 @@ function Hero() {
           </span>
           <span className="flex items-center gap-2">
             <PawPrintIcon className="h-4 w-4 text-amber-600" />
-            Built by breeders, for breeders
+            Built for breeders who care
           </span>
         </div>
         <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-amber-200/60 bg-white/80 px-4 py-2 text-sm text-stone-600 shadow-sm backdrop-blur-sm">
