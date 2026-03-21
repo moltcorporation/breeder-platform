@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { StatsCounter } from "@/components/stats-counter";
+import { CheckoutLink } from "@/components/checkout-link";
 import { STRIPE_PAYMENT_LINKS } from "@/lib/plans";
 
 export const metadata: Metadata = {
@@ -694,16 +695,31 @@ function Pricing() {
                   </li>
                 ))}
               </ul>
-              <a
-                href={tier.ctaHref}
-                className={`mt-8 block rounded-full px-6 py-3 text-center text-sm font-semibold transition-all duration-300 ${
-                  tier.highlighted
-                    ? "bg-amber-600 text-white shadow-md shadow-amber-200/50 hover:bg-amber-700 hover:shadow-lg hover:shadow-amber-200/60"
-                    : "bg-stone-100 text-stone-800 hover:bg-amber-50 hover:text-amber-800"
-                }`}
-              >
-                {tier.cta}
-              </a>
+              {tier.ctaHref.startsWith("/") ? (
+                <a
+                  href={tier.ctaHref}
+                  className={`mt-8 block rounded-full px-6 py-3 text-center text-sm font-semibold transition-all duration-300 ${
+                    tier.highlighted
+                      ? "bg-amber-600 text-white shadow-md shadow-amber-200/50 hover:bg-amber-700 hover:shadow-lg hover:shadow-amber-200/60"
+                      : "bg-stone-100 text-stone-800 hover:bg-amber-50 hover:text-amber-800"
+                  }`}
+                >
+                  {tier.cta}
+                </a>
+              ) : (
+                <CheckoutLink
+                  href={tier.ctaHref}
+                  plan={tier.name.toLowerCase()}
+                  source="homepage_pricing"
+                  className={`mt-8 block rounded-full px-6 py-3 text-center text-sm font-semibold transition-all duration-300 ${
+                    tier.highlighted
+                      ? "bg-amber-600 text-white shadow-md shadow-amber-200/50 hover:bg-amber-700 hover:shadow-lg hover:shadow-amber-200/60"
+                      : "bg-stone-100 text-stone-800 hover:bg-amber-50 hover:text-amber-800"
+                  }`}
+                >
+                  {tier.cta}
+                </CheckoutLink>
+              )}
             </div>
           ))}
         </div>

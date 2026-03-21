@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db";
 import { breeders, dogs, litters, puppies, conversionEvents } from "@/db/schema";
 import { hashPassword, createSession } from "@/lib/auth";
+import { trackServerEvent } from "@/lib/track";
 import { eq } from "drizzle-orm";
 
 export async function POST(request: NextRequest) {
@@ -102,6 +103,13 @@ export async function POST(request: NextRequest) {
     await db.insert(conversionEvents).values({
       breederId: breeder.id,
       event: "signup",
+      utmSource: utm_source || null,
+      utmMedium: utm_medium || null,
+      utmCampaign: utm_campaign || null,
+    });
+
+    // Also log to tracking_events for unified funnel reporting
+    await trackServerEvent(breeder.id, "signup", {
       utmSource: utm_source || null,
       utmMedium: utm_medium || null,
       utmCampaign: utm_campaign || null,

@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSession } from "@/lib/auth";
 import { db } from "@/db";
-import { dogs } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { dogs, breeders } from "@/db/schema";
+import { eq, and, not, like, sql } from "drizzle-orm";
+import { trackServerEvent } from "@/lib/track";
 
 export async function GET(request: NextRequest) {
   const session = await getSession(request);
@@ -41,6 +42,35 @@ export async function POST(request: NextRequest) {
       isActive: body.isActive ?? true,
     })
     .returning();
+
+  // Track first real (non-demo) dog creation as profile_created
+  const nonDemoCount = await db
+    .select({ count: sql<number>`count(*)::int` })
+    .from(dogs)
+    .where(
+      and(
+        eq(dogs.breederId, session.breederId),
+        not(like(dogs.name, "[Demo]%"))
+      )
+    );
+
+  if (nonDemoCount[0]?.count === 1) {
+    const [breeder] = await db
+      .select({
+        utmSource: breeders.utmSource,
+        utmMedium: breeders.utmMedium,
+        utmCampaign: breeders.utmCampaign,
+      })
+      .from(breeders)
+      .where(eq(breeders.id, session.breederId))
+      .limit(1);
+
+    await trackServerEvent(session.breederId, "profile_created", {
+      utmSource: breeder?.utmSource,
+      utmMedium: breeder?.utmMedium,
+      utmCampaign: breeder?.utmCampaign,
+    }, { breed: body.breed });
+  }
 
   return NextResponse.json(dog, { status: 201 });
 }

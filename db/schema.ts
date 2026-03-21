@@ -152,6 +152,19 @@ export const conversionEvents = pgTable("conversion_events", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+export const trackingEvents = pgTable("tracking_events", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => nanoid()),
+  breederId: text("breeder_id"),
+  event: text("event").notNull(), // "signup", "profile_created", "checkout_initiated", "purchase"
+  properties: text("properties"), // JSON string for event metadata
+  utmSource: text("utm_source"),
+  utmMedium: text("utm_medium"),
+  utmCampaign: text("utm_campaign"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
 export const passwordResetTokens = pgTable("password_reset_tokens", {
   id: text("id")
     .primaryKey()

@@ -2,11 +2,12 @@ export const dynamic = "force-dynamic";
 
 import { NextResponse } from "next/server";
 import { db } from "@/db";
-import { conversionEvents } from "@/db/schema";
+import { conversionEvents, trackingEvents } from "@/db/schema";
 import { sql } from "drizzle-orm";
 
 export async function GET() {
   try {
+    // Legacy conversion events (signup + purchase)
     const rows = await db
       .select({
         utmSource: conversionEvents.utmSource,
@@ -33,7 +34,32 @@ export async function GET() {
       if (row.event === "purchase") channels[key].purchases = row.count;
     }
 
-    return NextResponse.json({ channels });
+    // Full funnel from tracking_events
+    const funnelRows = await db
+      .select({
+        utmSource: trackingEvents.utmSource,
+        utmMedium: trackingEvents.utmMedium,
+        utmCampaign: trackingEvents.utmCampaign,
+        event: trackingEvents.event,
+        count: sql<number>`count(*)::int`,
+      })
+      .from(trackingEvents)
+      .groupBy(
+        trackingEvents.utmSource,
+        trackingEvents.utmMedium,
+        trackingEvents.utmCampaign,
+        trackingEvents.event,
+      )
+      .orderBy(sql`count(*) desc`);
+
+    const funnel: Record<string, Record<string, number>> = {};
+    for (const row of funnelRows) {
+      const key = [row.utmSource || "direct", row.utmMedium || "none", row.utmCampaign || "none"].join(" / ");
+      if (!funnel[key]) funnel[key] = {};
+      funnel[key][row.event] = row.count;
+    }
+
+    return NextResponse.json({ channels, funnel });
   } catch (error) {
     console.error("Conversion summary error:", error);
     return NextResponse.json({ error: "Failed to fetch summary" }, { status: 500 });
