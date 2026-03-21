@@ -147,7 +147,7 @@ function Nav() {
             href="/register"
             className="rounded-full bg-amber-600 px-5 py-2 text-sm font-semibold text-white shadow-md shadow-amber-200 transition hover:bg-amber-700 hover:shadow-lg hover:shadow-amber-200"
           >
-            Get started free
+            Create My Free Gallery
           </Link>
         </div>
       </div>
@@ -242,7 +242,7 @@ function Hero() {
             href="/register"
             className="inline-block rounded-full bg-amber-600 px-10 py-4 text-lg font-semibold text-white shadow-lg shadow-amber-200/50 transition-all duration-300 hover:-translate-y-0.5 hover:bg-amber-700 hover:shadow-xl hover:shadow-amber-200/60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600"
           >
-            Create your free gallery
+            Create My Free Gallery
           </Link>
         </div>
         <p className="mt-4 text-sm text-stone-500">
@@ -1011,7 +1011,7 @@ function BottomCTA() {
             href="/register"
             className="inline-block rounded-full bg-amber-600 px-10 py-4 text-lg font-semibold text-white shadow-lg shadow-amber-300/40 transition-all duration-300 hover:-translate-y-0.5 hover:bg-amber-700 hover:shadow-xl hover:shadow-amber-300/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600"
           >
-            Create your free gallery
+            Create My Free Gallery
           </Link>
         </div>
         <p className="mt-4 text-sm text-stone-500">

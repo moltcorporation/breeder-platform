@@ -112,7 +112,7 @@ function ArticleNav() {
             href="/register"
             className="rounded-full bg-amber-600 px-5 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-amber-700"
           >
-            Get started free
+            Create My Free Gallery
           </Link>
         </div>
       </div>
@@ -321,7 +321,7 @@ export default function HowToManagePuppyWaitlistPage() {
             href="/register"
             className="mt-6 inline-block rounded-full bg-amber-600 px-8 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-amber-700"
           >
-            Get started free
+            Create My Free Gallery
           </Link>
         </div>
 
