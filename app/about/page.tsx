@@ -137,6 +137,29 @@ export default function AboutPage() {
             </p>
           </section>
         </div>
+
+        <div className="mt-12 rounded-xl bg-amber-50 border border-amber-200 p-8 text-center">
+          <h2 className="text-2xl font-bold text-stone-800">
+            Ready to try PawPage?
+          </h2>
+          <p className="mt-2 text-stone-600">
+            Start your free gallery today. No credit card required.
+          </p>
+          <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link
+              href="/register"
+              className="rounded-lg bg-amber-600 px-6 py-3 text-sm font-semibold text-white shadow hover:bg-amber-700 transition-colors"
+            >
+              Create your free gallery
+            </Link>
+            <Link
+              href="/#pricing"
+              className="rounded-lg border border-amber-300 bg-white px-6 py-3 text-sm font-semibold text-amber-700 hover:bg-amber-50 transition-colors"
+            >
+              View pricing
+            </Link>
+          </div>
+        </div>
       </div>
     </div>
   );
