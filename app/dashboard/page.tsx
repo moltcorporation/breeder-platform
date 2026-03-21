@@ -3,8 +3,9 @@ export const dynamic = "force-dynamic";
 import { getSession } from "@/lib/auth";
 import { db } from "@/db";
 import { breeders, dogs, litters, applications, waitlist } from "@/db/schema";
-import { eq, and, count } from "drizzle-orm";
+import { eq, and, count, inArray } from "drizzle-orm";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 
 export default async function DashboardPage() {
   const session = await getSession();
@@ -30,7 +31,7 @@ export default async function DashboardPage() {
     .where(
       and(
         eq(litters.breederId, session.breederId),
-        eq(litters.status, "expected")
+        inArray(litters.status, ["expected", "whelped"])
       )
     );
 
@@ -61,12 +62,59 @@ export default async function DashboardPage() {
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)/g, "");
 
+  const hasNoLitters = litterCount.value === 0;
+
   return (
     <div>
       <h1 className="text-2xl font-bold mb-2">
         Welcome back, {breeder.name}!
       </h1>
       <p className="text-gray-500 mb-8">{breeder.kennelName}</p>
+
+      {/* Empty state CTA when no litters */}
+      {hasNoLitters && (
+        <div className="mb-8 bg-white rounded-xl border-2 border-dashed border-gray-300 p-8">
+          <div className="text-center max-w-md mx-auto">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-gray-100 mb-4">
+              <svg className="h-6 w-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+              </svg>
+            </div>
+            <h2 className="text-lg font-semibold text-gray-900 mb-1">
+              Add your first litter to get started
+            </h2>
+            <p className="text-sm text-gray-500 mb-6">
+              Buyers find you through your litters. Add one now and your gallery will show available puppies, helping families discover you.
+            </p>
+
+            {/* Mini gallery preview */}
+            <div className="rounded-lg border border-gray-200 overflow-hidden mb-6 text-left">
+              <div className="bg-gray-50 px-4 py-3 border-b border-gray-100">
+                <p className="text-sm font-medium text-gray-700">{breeder.kennelName}</p>
+                <p className="text-xs text-gray-400">What your page looks like with a litter</p>
+              </div>
+              <div className="px-4 py-3">
+                <div className="grid grid-cols-3 gap-2">
+                  {["Maple", "Bear", "Clover"].map((name) => (
+                    <div key={name} className="rounded border border-gray-100 bg-gray-50 p-2">
+                      <div className="h-8 rounded bg-gray-200 mb-1" />
+                      <p className="text-xs font-medium text-gray-500">{name}</p>
+                      <p className="text-xs text-green-600">Available</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <Link
+              href="/dashboard/litters/new"
+              className="inline-flex rounded-lg bg-gray-900 px-6 py-2.5 text-sm font-medium text-white hover:bg-gray-800"
+            >
+              Add your first litter
+            </Link>
+          </div>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat) => (

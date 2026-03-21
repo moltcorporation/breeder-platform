@@ -2,8 +2,8 @@ export const dynamic = "force-dynamic";
 
 import { getSession } from "@/lib/auth";
 import { db } from "@/db";
-import { breeders } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { breeders, dogs } from "@/db/schema";
+import { eq, and } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { OnboardingWizard } from "./wizard";
 
@@ -18,6 +18,12 @@ export default async function OnboardingPage() {
     .limit(1);
 
   if (!breeder) redirect("/login");
+
+  // Fetch breeder's dogs for litter creation step
+  const breederDogs = await db
+    .select({ id: dogs.id, name: dogs.name, gender: dogs.gender, breed: dogs.breed })
+    .from(dogs)
+    .where(eq(dogs.breederId, session.breederId));
 
   const kennelSlug = breeder.kennelName
     .toLowerCase()
@@ -37,6 +43,7 @@ export default async function OnboardingPage() {
           breeds: breeder.breeds,
         }}
         kennelSlug={kennelSlug}
+        dogs={breederDogs}
       />
     </div>
   );

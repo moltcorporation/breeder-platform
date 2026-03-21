@@ -14,12 +14,21 @@ type Breeder = {
   breeds: string[] | null;
 };
 
+type Dog = {
+  id: string;
+  name: string;
+  gender: string;
+  breed: string;
+};
+
 export function OnboardingWizard({
   breeder,
   kennelSlug,
+  dogs,
 }: {
   breeder: Breeder;
   kennelSlug: string;
+  dogs: Dog[];
 }) {
   const router = useRouter();
   const [step, setStep] = useState(1);
@@ -28,18 +37,14 @@ export function OnboardingWizard({
 
   // Step 1: Kennel profile
   const [kennelName, setKennelName] = useState(breeder.kennelName || "");
-  const [bio, setBio] = useState(breeder.bio || "");
   const [city, setCity] = useState(breeder.city || "");
   const [state, setState] = useState(breeder.state || "");
-  const [breeds, setBreeds] = useState(
-    breeder.breeds?.join(", ") || ""
-  );
+  const [breeds, setBreeds] = useState(breeder.breeds?.join(", ") || "");
 
-  // Step 2: First dog
-  const [dogName, setDogName] = useState("");
-  const [dogBreed, setDogBreed] = useState("");
-  const [dogGender, setDogGender] = useState("female");
-  const [dogColor, setDogColor] = useState("");
+  // Step 2: First litter
+  const [litterBreed, setLitterBreed] = useState("");
+  const [litterDate, setLitterDate] = useState("");
+  const [puppyCount, setPuppyCount] = useState("");
 
   const inputClass =
     "w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500";
@@ -52,29 +57,77 @@ export function OnboardingWizard({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         kennelName: kennelName || breeder.kennelName,
-        bio,
         city,
         state,
-        breeds: breeds.split(",").map((b) => b.trim()).filter(Boolean),
+        breeds: breeds
+          .split(",")
+          .map((b) => b.trim())
+          .filter(Boolean),
       }),
     });
     setSaving(false);
     setStep(2);
   }
 
-  async function addDog() {
-    if (!dogName || !dogBreed || !dogColor) return;
+  async function addLitter() {
     setSaving(true);
-    await fetch("/api/dogs", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name: dogName,
-        breed: dogBreed,
-        gender: dogGender,
-        color: dogColor,
-      }),
-    });
+    try {
+      // Find a female and male dog to use as dam/sire
+      const dam = dogs.find((d) => d.gender === "female");
+      const sire = dogs.find((d) => d.gender === "male");
+
+      if (!dam || !sire) {
+        // Create placeholder dogs if none exist
+        const damRes = await fetch("/api/dogs", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: "Dam",
+            breed: litterBreed || "Mixed",
+            gender: "female",
+            color: "N/A",
+          }),
+        });
+        const sireRes = await fetch("/api/dogs", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: "Sire",
+            breed: litterBreed || "Mixed",
+            gender: "male",
+            color: "N/A",
+          }),
+        });
+        const damData = await damRes.json();
+        const sireData = await sireRes.json();
+
+        await fetch("/api/litters", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            damId: damData.id,
+            sireId: sireData.id,
+            whelpDate: litterDate || null,
+            puppyCount: puppyCount ? parseInt(puppyCount) : null,
+            status: litterDate ? "whelped" : "expected",
+          }),
+        });
+      } else {
+        await fetch("/api/litters", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            damId: dam.id,
+            sireId: sire.id,
+            whelpDate: litterDate || null,
+            puppyCount: puppyCount ? parseInt(puppyCount) : null,
+            status: litterDate ? "whelped" : "expected",
+          }),
+        });
+      }
+    } catch {
+      // Continue even if litter creation fails
+    }
     setSaving(false);
     setStep(3);
   }
@@ -88,9 +141,12 @@ export function OnboardingWizard({
 
   const steps = [
     { num: 1, label: "Your Kennel" },
-    { num: 2, label: "First Dog" },
-    { num: 3, label: "Preview & Share" },
+    { num: 2, label: "First Litter" },
+    { num: 3, label: "Preview" },
+    { num: 4, label: "Share" },
   ];
+
+  const totalSteps = steps.length;
 
   return (
     <div className="max-w-2xl">
@@ -110,14 +166,14 @@ export function OnboardingWizard({
                   : "bg-gray-100 text-gray-400"
               }`}
             >
-              {step > s.num ? "✓" : s.num}
+              {step > s.num ? "\u2713" : s.num}
             </div>
             <span
               className={`text-sm ${step >= s.num ? "text-gray-900 font-medium" : "text-gray-400"}`}
             >
               {s.label}
             </span>
-            {s.num < 3 && (
+            {s.num < totalSteps && (
               <div
                 className={`h-px w-8 ${step > s.num ? "bg-gray-900" : "bg-gray-200"}`}
               />
@@ -129,10 +185,12 @@ export function OnboardingWizard({
       {/* Step 1: Kennel Profile */}
       {step === 1 && (
         <div className="bg-white rounded-xl border border-gray-200 p-6">
-          <h2 className="text-lg font-semibold mb-4">Set up your kennel</h2>
+          <h2 className="text-lg font-semibold mb-4">Name your kennel</h2>
           <div className="space-y-4">
             <div>
-              <label htmlFor="kennelName" className={labelClass}>Kennel Name</label>
+              <label htmlFor="kennelName" className={labelClass}>
+                Kennel Name
+              </label>
               <input
                 id="kennelName"
                 type="text"
@@ -144,7 +202,9 @@ export function OnboardingWizard({
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label htmlFor="city" className={labelClass}>City</label>
+                <label htmlFor="city" className={labelClass}>
+                  City
+                </label>
                 <input
                   id="city"
                   type="text"
@@ -155,7 +215,9 @@ export function OnboardingWizard({
                 />
               </div>
               <div>
-                <label htmlFor="state" className={labelClass}>State</label>
+                <label htmlFor="state" className={labelClass}>
+                  State
+                </label>
                 <input
                   id="state"
                   type="text"
@@ -168,7 +230,9 @@ export function OnboardingWizard({
               </div>
             </div>
             <div>
-              <label htmlFor="breeds" className={labelClass}>Breeds (comma separated)</label>
+              <label htmlFor="breeds" className={labelClass}>
+                Breeds (comma separated)
+              </label>
               <input
                 id="breeds"
                 type="text"
@@ -178,20 +242,9 @@ export function OnboardingWizard({
                 className={inputClass}
               />
             </div>
-            <div>
-              <label htmlFor="bio" className={labelClass}>About your kennel</label>
-              <textarea
-                id="bio"
-                value={bio}
-                onChange={(e) => setBio(e.target.value)}
-                placeholder="Tell potential buyers about your breeding program, health testing, and what makes your kennel special..."
-                rows={3}
-                className={inputClass}
-              />
-            </div>
             <button
               onClick={saveProfile}
-              disabled={saving}
+              disabled={saving || !kennelName}
               className="w-full rounded-lg bg-gray-900 px-4 py-2.5 text-sm font-medium text-white hover:bg-gray-800 disabled:opacity-50"
             >
               {saving ? "Saving..." : "Save & Continue"}
@@ -200,68 +253,63 @@ export function OnboardingWizard({
         </div>
       )}
 
-      {/* Step 2: Add First Dog */}
+      {/* Step 2: Add First Litter */}
       {step === 2 && (
         <div className="bg-white rounded-xl border border-gray-200 p-6">
-          <h2 className="text-lg font-semibold mb-1">Add your first dog</h2>
+          <h2 className="text-lg font-semibold mb-1">Add your first litter</h2>
           <p className="text-sm text-gray-500 mb-4">
-            This shows up on your gallery page. You can add more later.
+            This helps buyers find you. You can edit details later.
           </p>
           <div className="space-y-4">
             <div>
-              <label htmlFor="dogName" className={labelClass}>Name</label>
+              <label htmlFor="litterBreed" className={labelClass}>
+                Breed
+              </label>
               <input
-                id="dogName"
+                id="litterBreed"
                 type="text"
-                value={dogName}
-                onChange={(e) => setDogName(e.target.value)}
-                placeholder="Daisy"
+                value={litterBreed}
+                onChange={(e) => setLitterBreed(e.target.value)}
+                placeholder="Golden Retriever"
                 className={inputClass}
               />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label htmlFor="dogBreed" className={labelClass}>Breed</label>
+                <label htmlFor="litterDate" className={labelClass}>
+                  Birth date (or expected)
+                </label>
                 <input
-                  id="dogBreed"
-                  type="text"
-                  value={dogBreed}
-                  onChange={(e) => setDogBreed(e.target.value)}
-                  placeholder="Golden Retriever"
+                  id="litterDate"
+                  type="date"
+                  value={litterDate}
+                  onChange={(e) => setLitterDate(e.target.value)}
                   className={inputClass}
                 />
               </div>
               <div>
-                <label htmlFor="dogGender" className={labelClass}>Gender</label>
-                <select
-                  id="dogGender"
-                  value={dogGender}
-                  onChange={(e) => setDogGender(e.target.value)}
+                <label htmlFor="puppyCount" className={labelClass}>
+                  Number of puppies
+                </label>
+                <input
+                  id="puppyCount"
+                  type="number"
+                  min="1"
+                  max="20"
+                  value={puppyCount}
+                  onChange={(e) => setPuppyCount(e.target.value)}
+                  placeholder="6"
                   className={inputClass}
-                >
-                  <option value="female">Female</option>
-                  <option value="male">Male</option>
-                </select>
+                />
               </div>
-            </div>
-            <div>
-              <label htmlFor="dogColor" className={labelClass}>Color</label>
-              <input
-                id="dogColor"
-                type="text"
-                value={dogColor}
-                onChange={(e) => setDogColor(e.target.value)}
-                placeholder="Golden"
-                className={inputClass}
-              />
             </div>
             <div className="flex gap-3">
               <button
-                onClick={addDog}
-                disabled={saving || !dogName || !dogBreed || !dogColor}
+                onClick={addLitter}
+                disabled={saving}
                 className="flex-1 rounded-lg bg-gray-900 px-4 py-2.5 text-sm font-medium text-white hover:bg-gray-800 disabled:opacity-50"
               >
-                {saving ? "Adding..." : "Add Dog & Continue"}
+                {saving ? "Adding..." : "Add Litter & Continue"}
               </button>
               <button
                 onClick={() => setStep(3)}
@@ -274,16 +322,103 @@ export function OnboardingWizard({
         </div>
       )}
 
-      {/* Step 3: Preview & Share */}
+      {/* Step 3: Preview Gallery */}
       {step === 3 && (
+        <div className="bg-white rounded-xl border border-gray-200 p-6">
+          <h2 className="text-lg font-semibold mb-1">
+            Preview your gallery
+          </h2>
+          <p className="text-sm text-gray-500 mb-6">
+            This is what potential buyers will see when they visit your page.
+          </p>
+
+          {/* Gallery preview mockup */}
+          <div className="rounded-lg border border-gray-200 overflow-hidden mb-6">
+            <div className="bg-gray-50 px-5 py-4 border-b border-gray-200">
+              <h3 className="font-semibold text-lg">
+                {kennelName || breeder.kennelName}
+              </h3>
+              {(city || state) && (
+                <p className="text-sm text-gray-500 mt-0.5">
+                  {[city, state].filter(Boolean).join(", ")}
+                </p>
+              )}
+              {breeds && (
+                <div className="flex gap-1.5 mt-2 flex-wrap">
+                  {breeds
+                    .split(",")
+                    .map((b) => b.trim())
+                    .filter(Boolean)
+                    .map((b) => (
+                      <span
+                        key={b}
+                        className="inline-block rounded-full bg-gray-200 px-2.5 py-0.5 text-xs font-medium text-gray-700"
+                      >
+                        {b}
+                      </span>
+                    ))}
+                </div>
+              )}
+            </div>
+            <div className="px-5 py-4">
+              <div className="grid grid-cols-2 gap-3">
+                {["Puppy 1", "Puppy 2", "Puppy 3", "Puppy 4"].map((name) => (
+                  <div
+                    key={name}
+                    className="rounded-lg border border-gray-100 bg-gray-50 p-3"
+                  >
+                    <div className="h-16 rounded bg-gray-200 mb-2 flex items-center justify-center">
+                      <svg
+                        className="h-6 w-6 text-gray-400"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={1.5}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.41a2.25 2.25 0 013.182 0l2.909 2.91M3.75 21h16.5a2.25 2.25 0 002.25-2.25V5.25a2.25 2.25 0 00-2.25-2.25H3.75a2.25 2.25 0 00-2.25 2.25v13.5a2.25 2.25 0 002.25 2.25z"
+                        />
+                      </svg>
+                    </div>
+                    <p className="text-xs font-medium text-gray-600">{name}</p>
+                    <p className="text-xs text-gray-400">Available</p>
+                  </div>
+                ))}
+              </div>
+              <p className="text-center text-xs text-gray-400 mt-3">
+                Add puppy photos to make your gallery stand out
+              </p>
+            </div>
+          </div>
+
+          <div className="flex gap-3">
+            <Link
+              href={`/${kennelSlug}`}
+              target="_blank"
+              className="flex-1 rounded-lg border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 text-center"
+            >
+              View live gallery
+            </Link>
+            <button
+              onClick={() => setStep(4)}
+              className="flex-1 rounded-lg bg-gray-900 px-4 py-2.5 text-sm font-medium text-white hover:bg-gray-800"
+            >
+              Continue
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Step 4: Share Your Link */}
+      {step === 4 && (
         <div className="space-y-6">
           <div className="bg-white rounded-xl border border-gray-200 p-6">
-            <h2 className="text-lg font-semibold mb-1">
-              Your gallery is live!
-            </h2>
+            <h2 className="text-lg font-semibold mb-1">Share your link</h2>
             <p className="text-sm text-gray-500 mb-4">
-              Share this link on your Instagram bio, Facebook, or anywhere you
-              connect with potential buyers.
+              Put this on your Instagram bio, Facebook, or business cards so
+              buyers can find you.
             </p>
 
             <div className="flex items-center gap-2">
@@ -305,37 +440,25 @@ export function OnboardingWizard({
             <h2 className="text-lg font-semibold mb-4">What&apos;s next?</h2>
             <div className="space-y-3">
               <Link
-                href={`/${kennelSlug}`}
-                className="flex items-center justify-between rounded-lg border border-gray-200 p-4 hover:bg-gray-50"
-              >
-                <div>
-                  <p className="font-medium">Preview your gallery</p>
-                  <p className="text-sm text-gray-500">
-                    See what buyers will see
-                  </p>
-                </div>
-                <span className="text-gray-400">&rarr;</span>
-              </Link>
-              <Link
                 href="/dashboard/dogs/new"
                 className="flex items-center justify-between rounded-lg border border-gray-200 p-4 hover:bg-gray-50"
               >
                 <div>
-                  <p className="font-medium">Add more dogs</p>
+                  <p className="font-medium">Add your dogs</p>
                   <p className="text-sm text-gray-500">
-                    Build out your kennel profile
+                    Add photos and details for your dam &amp; sire
                   </p>
                 </div>
                 <span className="text-gray-400">&rarr;</span>
               </Link>
               <Link
-                href="/dashboard/litters/new"
+                href="/dashboard/litters"
                 className="flex items-center justify-between rounded-lg border border-gray-200 p-4 hover:bg-gray-50"
               >
                 <div>
-                  <p className="font-medium">Create a litter</p>
+                  <p className="font-medium">Manage your litters</p>
                   <p className="text-sm text-gray-500">
-                    Start accepting applications
+                    Add puppies and start accepting applications
                   </p>
                 </div>
                 <span className="text-gray-400">&rarr;</span>
