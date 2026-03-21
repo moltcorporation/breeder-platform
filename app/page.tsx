@@ -247,7 +247,21 @@ function Hero() {
         <p className="mt-4 text-sm text-stone-500">
           Free forever for 1 litter. No credit card required.
         </p>
-        <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-amber-200/60 bg-white/80 px-4 py-2 text-sm text-stone-600 shadow-sm backdrop-blur-sm">
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-6 text-sm text-stone-500">
+          <span className="flex items-center gap-2">
+            <ShieldCheckIcon className="h-4 w-4 text-amber-600" />
+            No credit card required
+          </span>
+          <span className="flex items-center gap-2">
+            <HeartIcon className="h-4 w-4 text-amber-600" />
+            Cancel anytime
+          </span>
+          <span className="flex items-center gap-2">
+            <PawPrintIcon className="h-4 w-4 text-amber-600" />
+            Built by breeders, for breeders
+          </span>
+        </div>
+        <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-amber-200/60 bg-white/80 px-4 py-2 text-sm text-stone-600 shadow-sm backdrop-blur-sm">
           <PawPrintIcon className="h-4 w-4 text-amber-500" />
           Join breeders already using PawPage
         </div>
