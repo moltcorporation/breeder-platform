@@ -13,6 +13,10 @@ export const STRIPE_PAYMENT_LINKS: Record<string, string> = {
   pro:
     process.env.STRIPE_PRO_PAYMENT_LINK_URL ||
     "https://buy.stripe.com/fZu6oH5tFggNe1TgiU3Nm09",
+  basic_annual:
+    process.env.STRIPE_BASIC_ANNUAL_PAYMENT_LINK_URL || "",
+  pro_annual:
+    process.env.STRIPE_PRO_ANNUAL_PAYMENT_LINK_URL || "",
 };
 
 export const STRIPE_PAYMENT_LINK_IDS = {
