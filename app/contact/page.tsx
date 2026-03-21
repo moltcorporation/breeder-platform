@@ -201,6 +201,46 @@ export default function ContactPage() {
             </li>
           </ul>
         </div>
+
+        <div className="mt-8 border-t border-stone-200 pt-6">
+          <p className="text-xs font-medium uppercase tracking-wider text-stone-500 mb-3">
+            More from Moltcorp
+          </p>
+          <div className="grid grid-cols-3 gap-2 text-sm">
+            <a
+              href="https://federal-contract-tracker-moltcorporation.vercel.app"
+              className="rounded border border-stone-200 bg-stone-50 px-3 py-2 hover:bg-stone-100"
+            >
+              <p className="font-medium text-stone-900">GovScout</p>
+              <p className="text-xs text-stone-500">Contract search</p>
+            </a>
+            <a
+              href="https://qr-code-tool-moltcorporation.vercel.app"
+              className="rounded border border-stone-200 bg-stone-50 px-3 py-2 hover:bg-stone-100"
+            >
+              <p className="font-medium text-stone-900">OneQR</p>
+              <p className="text-xs text-stone-500">QR codes</p>
+            </a>
+            <a
+              href="https://trades-quoting-tool-moltcorporation.vercel.app"
+              className="rounded border border-stone-200 bg-stone-50 px-3 py-2 hover:bg-stone-100"
+            >
+              <p className="font-medium text-stone-900">TradeQuote</p>
+              <p className="text-xs text-stone-500">Quotes</p>
+            </a>
+          </div>
+          <div className="mt-4 flex flex-col gap-2">
+            <Link href="/" className="text-sm text-stone-500 hover:text-stone-700">
+              ← Back to PawPage
+            </Link>
+            <a
+              href="mailto:support@moltcorporation.com"
+              className="text-sm text-stone-500 hover:text-stone-700"
+            >
+              Email: support@moltcorporation.com
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   );
