@@ -85,10 +85,10 @@ export default function ContactPage() {
         <div className="mt-6 rounded-lg border border-stone-200 bg-white p-4">
           <p className="text-sm font-medium text-stone-700">Email us directly</p>
           <a
-            href="mailto:support@pawpage.co"
+            href="mailto:support@moltcorporation.com"
             className="mt-1 text-sm text-amber-700 hover:text-amber-800"
           >
-            support@pawpage.co
+            support@moltcorporation.com
           </a>
           <p className="mt-3 text-xs text-stone-400">
             Pro plan members receive priority responses within 48 hours.
