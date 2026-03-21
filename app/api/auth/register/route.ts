@@ -11,12 +11,16 @@ export async function POST(request: NextRequest) {
   try {
     const { email, password, name, kennelName, utm_source, utm_medium, utm_campaign } = await request.json();
 
-    if (!email || !password || !name || !kennelName) {
+    if (!email || !password) {
       return NextResponse.json(
-        { error: "All fields are required" },
+        { error: "Email and password are required" },
         { status: 400 }
       );
     }
+
+    // Default name from email prefix, kennelName collected in onboarding
+    const resolvedName = name || email.split("@")[0];
+    const resolvedKennelName = kennelName || "My Kennel";
 
     // Check if email already exists
     const existing = await db
@@ -39,8 +43,8 @@ export async function POST(request: NextRequest) {
       .values({
         email,
         passwordHash,
-        name,
-        kennelName,
+        name: resolvedName,
+        kennelName: resolvedKennelName,
         utmSource: utm_source || null,
         utmMedium: utm_medium || null,
         utmCampaign: utm_campaign || null,
