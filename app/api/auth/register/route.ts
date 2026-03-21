@@ -2,13 +2,13 @@ export const dynamic = "force-dynamic";
 
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db";
-import { breeders, dogs, litters, puppies } from "@/db/schema";
+import { breeders, dogs, litters, puppies, conversionEvents } from "@/db/schema";
 import { hashPassword, createSession } from "@/lib/auth";
 import { eq } from "drizzle-orm";
 
 export async function POST(request: NextRequest) {
   try {
-    const { email, password, name, kennelName } = await request.json();
+    const { email, password, name, kennelName, utm_source, utm_medium, utm_campaign } = await request.json();
 
     if (!email || !password || !name || !kennelName) {
       return NextResponse.json(
@@ -35,7 +35,15 @@ export async function POST(request: NextRequest) {
 
     const [breeder] = await db
       .insert(breeders)
-      .values({ email, passwordHash, name, kennelName })
+      .values({
+        email,
+        passwordHash,
+        name,
+        kennelName,
+        utmSource: utm_source || null,
+        utmMedium: utm_medium || null,
+        utmCampaign: utm_campaign || null,
+      })
       .returning({ id: breeders.id });
 
     // Create demo dogs for first-run experience
@@ -90,6 +98,14 @@ export async function POST(request: NextRequest) {
     }
 
     await createSession(breeder.id);
+
+    await db.insert(conversionEvents).values({
+      breederId: breeder.id,
+      event: "signup",
+      utmSource: utm_source || null,
+      utmMedium: utm_medium || null,
+      utmCampaign: utm_campaign || null,
+    });
 
     return NextResponse.json({ success: true });
   } catch {

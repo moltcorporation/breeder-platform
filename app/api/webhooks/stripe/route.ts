@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createHmac } from "crypto";
 import { db } from "@/db";
-import { breeders } from "@/db/schema";
+import { breeders, conversionEvents } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
 const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET || "";
@@ -86,7 +86,13 @@ export async function POST(request: NextRequest) {
 
       // Find breeder by email
       const [breeder] = await db
-        .select({ id: breeders.id, plan: breeders.plan })
+        .select({
+          id: breeders.id,
+          plan: breeders.plan,
+          utmSource: breeders.utmSource,
+          utmMedium: breeders.utmMedium,
+          utmCampaign: breeders.utmCampaign,
+        })
         .from(breeders)
         .where(eq(breeders.email, email))
         .limit(1);
@@ -107,6 +113,18 @@ export async function POST(request: NextRequest) {
           .where(eq(breeders.id, breeder.id));
 
         console.log(`Updated breeder ${breeder.id} to plan: ${plan}`);
+      }
+
+      // Record purchase conversion event with UTM attribution
+      if (plan !== "free") {
+        await db.insert(conversionEvents).values({
+          breederId: breeder.id,
+          event: "purchase",
+          plan,
+          utmSource: breeder.utmSource,
+          utmMedium: breeder.utmMedium,
+          utmCampaign: breeder.utmCampaign,
+        });
       }
 
       return NextResponse.json({

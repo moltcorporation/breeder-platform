@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { getUtmFromCookie } from "@/components/utm-capture";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -21,10 +22,11 @@ export default function RegisterPage() {
     const kennelName = formData.get("kennelName") as string;
 
     try {
+      const utm = getUtmFromCookie();
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password, name, kennelName }),
+        body: JSON.stringify({ email, password, name, kennelName, ...utm }),
       });
 
       if (!res.ok) {

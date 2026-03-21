@@ -28,6 +28,10 @@ export const breeders = pgTable("breeders", {
   stripeCustomerId: text("stripe_customer_id"),
   // Pro/Basic access is verified via Moltcorp API; this column is synced on dashboard load
   plan: text("plan").default("free").notNull(),
+  // UTM tracking for ad attribution
+  utmSource: text("utm_source"),
+  utmMedium: text("utm_medium"),
+  utmCampaign: text("utm_campaign"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
@@ -130,6 +134,21 @@ export const feedback = pgTable("feedback", {
   intent: text("intent"),
   message: text("message").notNull(),
   page: text("page"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const conversionEvents = pgTable("conversion_events", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => nanoid()),
+  breederId: text("breeder_id")
+    .notNull()
+    .references(() => breeders.id),
+  event: text("event").notNull(), // "signup", "purchase"
+  plan: text("plan"),
+  utmSource: text("utm_source"),
+  utmMedium: text("utm_medium"),
+  utmCampaign: text("utm_campaign"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
