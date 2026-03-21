@@ -604,9 +604,10 @@ const tiers = [
     period: "forever",
     description: "Perfect for your first litter",
     features: ["1 active litter", "Gallery page", "Application forms"],
-    cta: "Get started",
+    cta: "Start Free",
     ctaHref: "/register",
     highlighted: false,
+    paid: false,
   },
   {
     name: "Basic",
@@ -622,6 +623,7 @@ const tiers = [
     cta: "Start Basic",
     ctaHref: STRIPE_PAYMENT_LINKS.basic,
     highlighted: false,
+    paid: true,
   },
   {
     name: "Pro",
@@ -635,6 +637,7 @@ const tiers = [
     cta: "Start Pro",
     ctaHref: STRIPE_PAYMENT_LINKS.pro,
     highlighted: true,
+    paid: true,
   },
 ];
 
@@ -719,6 +722,14 @@ function Pricing() {
                 >
                   {tier.cta}
                 </CheckoutLink>
+              )}
+              {tier.paid && (
+                <div className="mt-3 space-y-1 text-center">
+                  <p className="text-xs font-medium text-green-700">
+                    7-day money-back guarantee
+                  </p>
+                  <p className="text-xs text-stone-400">Cancel anytime</p>
+                </div>
               )}
             </div>
           ))}
