@@ -865,14 +865,14 @@ function Testimonials() {
 
 const faqs = [
   {
-    question: "Is my data secure?",
+    question: "How long does it take to set up my breeder page?",
     answer:
-      "Yes. PawPage uses industry-standard encryption and runs on secure cloud infrastructure. Your breeder and buyer data is never shared with third parties.",
+      "Under 5 minutes. Sign up, add your kennel name and bio, upload a few photos, and your gallery page is live. No technical skills needed — if you can post on Facebook, you can use PawPage.",
   },
   {
-    question: "Does it work on mobile?",
+    question: "Is my data and my buyers' data secure?",
     answer:
-      "Absolutely. Your gallery page, waitlist, and dashboard all work perfectly on phones and tablets. Buyers can apply and check their position from any device.",
+      "Yes. PawPage uses industry-standard encryption and runs on secure cloud infrastructure. All payments are processed through Stripe, the same platform used by Amazon and Shopify. Your breeder and buyer data is never shared with third parties.",
   },
   {
     question: "Can I try it before paying?",
@@ -880,14 +880,39 @@ const faqs = [
       "Yes — the Free plan lets you manage 1 litter with a full gallery page and application forms. No credit card required. Upgrade anytime when you need more.",
   },
   {
-    question: "How do deposits work?",
+    question: "What happens to my page if I downgrade?",
     answer:
-      "You track deposits in your PawPage dashboard. Record payments from any method (Venmo, Zelle, check) so you always know who paid and when.",
+      "Your gallery page stays live and all your data is preserved. Feature limits apply based on your new plan — for example, the Free tier supports 1 active litter. You can upgrade again anytime to unlock everything.",
+  },
+  {
+    question: "How do puppy deposits work?",
+    answer:
+      "Buyers pay deposits directly through your PawPage via Stripe — funds go straight to your connected account. You can also record offline payments (Venmo, Zelle, check) so your dashboard always shows who paid and when.",
+  },
+  {
+    question: "Can buyers see their waitlist position?",
+    answer:
+      "Yes. Buyers get real-time position tracking on your waitlist. They can check their spot anytime without messaging you, which means fewer DMs for you and a better experience for them.",
+  },
+  {
+    question: "Do I need any technical skills?",
+    answer:
+      "Not at all. PawPage is designed for breeders, not web developers. Fill in your kennel info, upload photos, and you're live. Everything is point-and-click — no coding, no hosting, no domain setup required.",
   },
   {
     question: "Can I cancel anytime?",
     answer:
       "Yes. No contracts, no cancellation fees. You can downgrade to the Free plan or cancel your subscription at any time from your account settings.",
+  },
+  {
+    question: "What's included in the free tier?",
+    answer:
+      "The Free plan includes 1 active litter, a full gallery page with your kennel info and photos, puppy application forms, and basic waitlist management. It's free forever — no trial period.",
+  },
+  {
+    question: "What payment methods can buyers use for deposits?",
+    answer:
+      "Buyers can pay with all major credit and debit cards through Stripe. You can also track offline payments like Venmo, Zelle, or checks directly in your dashboard.",
   },
 ];
 
@@ -904,17 +929,30 @@ function FAQ() {
             Common questions
           </h2>
         </div>
-        <div className="mt-14 space-y-6">
+        <div className="mt-14 space-y-4">
           {faqs.map((faq) => (
-            <div
+            <details
               key={faq.question}
-              className="rounded-2xl border border-[#D1D5C8] bg-white p-6 shadow-sm"
+              className="group rounded-2xl border border-[#D1D5C8] bg-white shadow-sm"
             >
-              <h3 className="font-semibold text-stone-800">{faq.question}</h3>
-              <p className="mt-2 leading-relaxed text-stone-600">
+              <summary className="flex cursor-pointer items-center justify-between p-6 font-semibold text-stone-800 [&::-webkit-details-marker]:hidden">
+                <span>{faq.question}</span>
+                <svg
+                  className="h-5 w-5 shrink-0 text-amber-600 transition-transform duration-200 group-open:rotate-180"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </summary>
+              <p className="px-6 pb-6 leading-relaxed text-stone-600">
                 {faq.answer}
               </p>
-            </div>
+            </details>
           ))}
         </div>
       </div>
