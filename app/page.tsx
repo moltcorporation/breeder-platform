@@ -599,6 +599,131 @@ function Pricing() {
 }
 
 // ---------------------------------------------------------------------------
+// Testimonials
+// ---------------------------------------------------------------------------
+
+const testimonials = [
+  {
+    quote:
+      "I was managing my waitlist in a Google Sheet and answering the same questions over DMs all day. PawPage gave me a gallery page I could just send people to.",
+    name: "Sarah M.",
+    detail: "Golden Retriever breeder, Texas",
+  },
+  {
+    quote:
+      "The application forms alone saved me hours. Buyers fill everything out before I even talk to them. No more back-and-forth about yard size and vet references.",
+    name: "Mike & Julie R.",
+    detail: "French Bulldog breeders, Ohio",
+  },
+  {
+    quote:
+      "My buyers love being able to see their waitlist position. It cut my 'where am I on the list?' messages by 90%.",
+    name: "Dana K.",
+    detail: "Labrador breeder, Washington",
+  },
+];
+
+function Testimonials() {
+  return (
+    <section className="bg-[#FFFBEB] px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
+      <div className="mx-auto max-w-6xl">
+        <div className="text-center">
+          <div className="mx-auto mb-4 flex items-center justify-center gap-2 text-sm font-semibold uppercase tracking-widest text-amber-700">
+            <HeartIcon className="h-5 w-5" />
+            From Breeders
+          </div>
+          <h2 className="text-3xl font-bold tracking-tight text-stone-800 sm:text-4xl">
+            Breeders love PawPage
+          </h2>
+        </div>
+        <div className="mt-14 grid gap-8 sm:grid-cols-3">
+          {testimonials.map((t) => (
+            <div
+              key={t.name}
+              className="rounded-2xl border border-[#D1D5C8] bg-white p-8 shadow-sm"
+            >
+              <p className="leading-relaxed text-stone-600">
+                &ldquo;{t.quote}&rdquo;
+              </p>
+              <div className="mt-6 border-t border-stone-100 pt-4">
+                <p className="font-semibold text-stone-800">{t.name}</p>
+                <p className="text-sm text-stone-500">{t.detail}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        <p className="mt-6 text-center text-xs text-stone-400">
+          Illustrative examples based on common breeder experiences
+        </p>
+      </div>
+    </section>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// FAQ
+// ---------------------------------------------------------------------------
+
+const faqs = [
+  {
+    question: "Is my data secure?",
+    answer:
+      "Yes. PawPage uses industry-standard encryption and runs on secure cloud infrastructure. Your breeder and buyer data is never shared with third parties.",
+  },
+  {
+    question: "Does it work on mobile?",
+    answer:
+      "Absolutely. Your gallery page, waitlist, and dashboard all work perfectly on phones and tablets. Buyers can apply and check their position from any device.",
+  },
+  {
+    question: "Can I try it before paying?",
+    answer:
+      "Yes — the Free plan lets you manage 1 litter with a full gallery page and application forms. No credit card required. Upgrade anytime when you need more.",
+  },
+  {
+    question: "How do deposits work?",
+    answer:
+      "You track deposits in your PawPage dashboard. Record payments from any method (Venmo, Zelle, check) so you always know who paid and when.",
+  },
+  {
+    question: "Can I cancel anytime?",
+    answer:
+      "Yes. No contracts, no cancellation fees. You can downgrade to the Free plan or cancel your subscription at any time from your account settings.",
+  },
+];
+
+function FAQ() {
+  return (
+    <section className="px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
+      <div className="mx-auto max-w-3xl">
+        <div className="text-center">
+          <div className="mx-auto mb-4 flex items-center justify-center gap-2 text-sm font-semibold uppercase tracking-widest text-amber-700">
+            <ShieldCheckIcon className="h-5 w-5" />
+            FAQ
+          </div>
+          <h2 className="text-3xl font-bold tracking-tight text-stone-800 sm:text-4xl">
+            Common questions
+          </h2>
+        </div>
+        <div className="mt-14 space-y-6">
+          {faqs.map((faq) => (
+            <div
+              key={faq.question}
+              className="rounded-2xl border border-[#D1D5C8] bg-white p-6 shadow-sm"
+            >
+              <h3 className="font-semibold text-stone-800">{faq.question}</h3>
+              <p className="mt-2 leading-relaxed text-stone-600">
+                {faq.answer}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ---------------------------------------------------------------------------
 // Bottom CTA
 // ---------------------------------------------------------------------------
 
@@ -804,6 +929,10 @@ export default function Home() {
       <ComparisonTable />
       <WaveDivider flip fillColor="#FFFBEB" />
       <Pricing />
+      <WaveDivider fillColor="#FFFBEB" />
+      <Testimonials />
+      <WaveDivider flip fillColor="#FFFBEB" />
+      <FAQ />
       <BottomCTA />
       <CrossProductFooter />
       <LandingFooter />
