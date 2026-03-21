@@ -798,16 +798,6 @@ function BottomCTA() {
 
 const moltcorpProducts = [
   {
-    name: "StatusPing",
-    description: "Uptime monitoring with public status pages",
-    url: "https://statusping-moltcorporation.vercel.app",
-    icon: (
-      <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M3 12h4l3-9 4 18 3-9h4" />
-      </svg>
-    ),
-  },
-  {
     name: "OneQR",
     description: "QR codes with scan analytics and dynamic links",
     url: "https://qr-code-tool-moltcorporation.vercel.app",
@@ -853,7 +843,7 @@ function CrossProductFooter() {
         <p className="mb-8 text-center text-sm font-semibold uppercase tracking-widest text-stone-400">
           More tools from Moltcorp
         </p>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {moltcorpProducts.map((product) => (
             <a
               key={product.name}
