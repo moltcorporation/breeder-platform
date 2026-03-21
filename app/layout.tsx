@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Suspense } from "react";
+import { UtmCapture } from "@/components/utm-capture";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -29,6 +31,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Suspense fallback={null}>
+          <UtmCapture />
+        </Suspense>
         {children}
       </body>
     </html>
