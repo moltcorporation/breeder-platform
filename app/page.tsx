@@ -247,6 +247,10 @@ function Hero() {
         <p className="mt-4 text-sm text-stone-500">
           Free forever for 1 litter. No credit card required.
         </p>
+        <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-amber-200/60 bg-white/80 px-4 py-2 text-sm text-stone-600 shadow-sm backdrop-blur-sm">
+          <PawPrintIcon className="h-4 w-4 text-amber-500" />
+          Join breeders already using PawPage
+        </div>
 
         <MockPuppyCard />
       </div>
@@ -605,21 +609,21 @@ function Pricing() {
 const testimonials = [
   {
     quote:
-      "I was managing my waitlist in a Google Sheet and answering the same questions over DMs all day. PawPage gave me a gallery page I could just send people to.",
+      "With 50+ families on our waitlist, keeping track in a spreadsheet was a nightmare. PawPage lets every family see their position and we went from 20 DMs a day to almost none.",
     name: "Sarah M.",
     detail: "Golden Retriever breeder, Texas",
   },
   {
     quote:
-      "The application forms alone saved me hours. Buyers fill everything out before I even talk to them. No more back-and-forth about yard size and vet references.",
+      "I'm a small hobby breeder — two Cavalier litters a year. I replaced my entire spreadsheet system in one afternoon. Application forms, waitlist, gallery — all in one place.",
     name: "Mike & Julie R.",
-    detail: "French Bulldog breeders, Ohio",
+    detail: "Cavalier King Charles Spaniel breeders, Ohio",
   },
   {
     quote:
-      "My buyers love being able to see their waitlist position. It cut my 'where am I on the list?' messages by 90%.",
+      "We collected our first online deposit through PawPage last month. No more chasing Venmo screenshots — buyers pay, we see it instantly. Game changer for our Labrador kennel.",
     name: "Dana K.",
-    detail: "Labrador breeder, Washington",
+    detail: "Labrador kennel owner, Washington",
   },
 ];
 
@@ -926,12 +930,12 @@ export default function Home() {
       <WaveDivider flip fillColor="#FFFBEB" />
       <Features />
       <WaveDivider fillColor="#FFFBEB" />
+      <Testimonials />
+      <WaveDivider flip fillColor="#FFFBEB" />
       <ComparisonTable />
       <WaveDivider flip fillColor="#FFFBEB" />
       <Pricing />
       <WaveDivider fillColor="#FFFBEB" />
-      <Testimonials />
-      <WaveDivider flip fillColor="#FFFBEB" />
       <FAQ />
       <BottomCTA />
       <CrossProductFooter />
