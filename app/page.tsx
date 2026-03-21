@@ -1058,6 +1058,9 @@ function LandingFooter() {
           <Link href="/about" className="text-stone-500 transition hover:text-amber-700">
             About
           </Link>
+          <Link href="/guides/breeder-guide" className="text-stone-500 transition hover:text-amber-700">
+            Breeder Guide
+          </Link>
           <Link href="/feedback" className="text-stone-500 transition hover:text-amber-700">
             Feedback
           </Link>
