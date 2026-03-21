@@ -617,6 +617,76 @@ function Pricing() {
 }
 
 // ---------------------------------------------------------------------------
+// Why Breeders Choose PawPage
+// ---------------------------------------------------------------------------
+
+function WhyBreeders() {
+  const reasons = [
+    {
+      icon: <ClipboardIcon className="h-7 w-7" />,
+      title: "No more spreadsheet chaos",
+      detail:
+        "Waitlists, deposits, and applications in one place — not scattered across Google Sheets, Venmo, and Facebook DMs.",
+    },
+    {
+      icon: <GalleryIcon className="h-7 w-7" />,
+      title: "Puppies sell themselves",
+      detail:
+        "A shareable gallery page with photos and availability that buyers can bookmark. No more resending the same 12 photos over text.",
+    },
+    {
+      icon: <ShieldCheckIcon className="h-7 w-7" />,
+      title: "Screen buyers before they waste your time",
+      detail:
+        "Custom application forms filter out tire-kickers. You see who has a yard, kids, and vet references before you reply.",
+    },
+    {
+      icon: <DollarIcon className="h-7 w-7" />,
+      title: "Deposits tracked, not lost",
+      detail:
+        "Record every deposit with the method, amount, and date. No more scrolling Venmo history wondering who paid.",
+    },
+  ];
+
+  return (
+    <section className="px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
+      <div className="mx-auto max-w-6xl">
+        <div className="text-center">
+          <div className="mx-auto mb-4 flex items-center justify-center gap-2 text-sm font-semibold uppercase tracking-widest text-amber-700">
+            <PawPrintIcon className="h-5 w-5" />
+            Built for Breeders
+          </div>
+          <h2 className="text-3xl font-bold tracking-tight text-stone-800 sm:text-4xl">
+            Why breeders choose PawPage
+          </h2>
+          <p className="mx-auto mt-4 max-w-2xl text-lg text-stone-600">
+            We solve the exact problems hobby breeders deal with every day.
+          </p>
+        </div>
+        <div className="mt-14 grid gap-6 sm:grid-cols-2">
+          {reasons.map((r) => (
+            <div
+              key={r.title}
+              className="flex gap-5 rounded-2xl border border-[#D1D5C8] bg-white p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
+            >
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-amber-50 text-amber-700">
+                {r.icon}
+              </div>
+              <div>
+                <h3 className="font-semibold text-stone-800">{r.title}</h3>
+                <p className="mt-1 text-sm leading-relaxed text-stone-600">
+                  {r.detail}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ---------------------------------------------------------------------------
 // Testimonials
 // ---------------------------------------------------------------------------
 
@@ -933,6 +1003,8 @@ export default function Home() {
       <Problem />
       <WaveDivider flip fillColor="#FFFBEB" />
       <Features />
+      <WaveDivider fillColor="#FFFBEB" />
+      <WhyBreeders />
       <WaveDivider fillColor="#FFFBEB" />
       <Testimonials />
       <WaveDivider flip fillColor="#FFFBEB" />
