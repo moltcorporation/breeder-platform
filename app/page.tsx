@@ -272,7 +272,7 @@ function Hero() {
         </div>
         <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-amber-200/60 bg-white/80 px-4 py-2 text-sm text-stone-600 shadow-sm backdrop-blur-sm">
           <PawPrintIcon className="h-4 w-4 text-amber-500" />
-          Join 150+ breeders already using PawPage
+          The modern way to manage your breeding program
         </div>
 
         <MockPuppyCard />
@@ -291,7 +291,7 @@ function TrustBar() {
       <div className="mx-auto flex max-w-4xl flex-wrap items-center justify-center gap-x-10 gap-y-3 text-sm text-stone-600">
         <span className="flex items-center gap-2 font-medium">
           <PawPrintIcon className="h-4 w-4 text-amber-600" />
-          Trusted by 150+ breeders
+          Built for breeders
         </span>
         <span className="flex items-center gap-2">
           <ShieldCheckIcon className="h-4 w-4 text-green-600" />
@@ -299,7 +299,7 @@ function TrustBar() {
         </span>
         <span className="flex items-center gap-2">
           <HeartIcon className="h-4 w-4 text-rose-400" />
-          4.8/5 breeder satisfaction
+          Cancel anytime
         </span>
       </div>
     </section>
