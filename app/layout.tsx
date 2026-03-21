@@ -19,6 +19,19 @@ export const metadata: Metadata = {
   title: "PawPage — Puppy Waitlist & Gallery for Breeders",
   description:
     "Manage your puppy waitlist, showcase litters with a beautiful gallery, and track deposits. Built for hobby and small breeders. Free to start.",
+  openGraph: {
+    title: "PawPage — Puppy Waitlist & Gallery for Breeders",
+    description:
+      "Manage your puppy waitlist, showcase litters with a beautiful gallery, and track deposits. Built for hobby and small breeders. Free to start.",
+    type: "website",
+    siteName: "PawPage",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "PawPage — Puppy Waitlist & Gallery for Breeders",
+    description:
+      "Manage your puppy waitlist, showcase litters with a beautiful gallery, and track deposits. Built for hobby and small breeders. Free to start.",
+  },
 };
 
 export default function RootLayout({

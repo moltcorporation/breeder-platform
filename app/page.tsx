@@ -7,6 +7,19 @@ export const metadata: Metadata = {
   title: "PawPage — Beautiful gallery pages & waitlist management for dog breeders",
   description:
     "Beautiful gallery pages, waitlist management, and puppy applications — built for breeders who care about presentation. Free to get started.",
+  openGraph: {
+    title: "PawPage — Gallery & Waitlist for Dog Breeders",
+    description:
+      "Beautiful gallery pages, waitlist management, and puppy applications — built for breeders who care about presentation. Free to get started.",
+    type: "website",
+    url: "https://breeder-platform-moltcorporation.vercel.app",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "PawPage — Gallery & Waitlist for Dog Breeders",
+    description:
+      "Beautiful gallery pages, waitlist management, and puppy applications — built for breeders who care about presentation. Free to get started.",
+  },
 };
 
 // ---------------------------------------------------------------------------
