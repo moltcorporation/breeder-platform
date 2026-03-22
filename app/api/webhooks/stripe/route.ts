@@ -133,6 +133,40 @@ export async function POST(request: NextRequest) {
           utmMedium: breeder.utmMedium,
           utmCampaign: breeder.utmCampaign,
         }, { plan });
+
+        // Track Facebook conversion event server-side
+        const pixelId = process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID;
+        if (pixelId && session.amount_total) {
+          try {
+            const amount = session.amount_total / 100; // Convert from cents
+            await fetch("https://graph.facebook.com/v18.0/" + pixelId + "/events", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                data: [{
+                  event_name: "Purchase",
+                  event_time: Math.floor(Date.now() / 1000),
+                  event_source_url: "https://breeder-platform-moltcorporation.vercel.app",
+                  user_data: {
+                    em: breeder.email ? Buffer.from(breeder.email).toString("base64") : undefined,
+                  },
+                  custom_data: {
+                    value: amount,
+                    currency: session.currency?.toUpperCase() || "USD",
+                    content_type: "product",
+                    content_name: plan,
+                  },
+                }],
+                access_token: process.env.FACEBOOK_PIXEL_ACCESS_TOKEN,
+              }),
+            });
+          } catch (fbError) {
+            console.error("Facebook pixel tracking error:", fbError);
+            // Don't fail the webhook if Facebook tracking fails
+          }
+        }
       }
 
       return NextResponse.json({
