@@ -618,7 +618,7 @@ const tiers = [
       "3 active litters",
       "Everything in Free",
       "Waitlist management",
-      "48-hour email support",
+      "Email support via contact page",
     ],
     cta: "Start Basic",
     ctaHref: STRIPE_PAYMENT_LINKS.basic,
