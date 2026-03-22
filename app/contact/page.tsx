@@ -1,205 +1,187 @@
-"use client";
-
-import { useState } from "react";
+import type { Metadata } from "next";
 import Link from "next/link";
 
+export const metadata: Metadata = {
+  title: "Contact & Support | PawPage",
+  description:
+    "Get help with your PawPage breeder account. Email support, response times, and FAQs for gallery pages, applications, and deposits.",
+};
+
 export default function ContactPage() {
-  const [submitted, setSubmitted] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState("");
-
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setSubmitting(true);
-    setError("");
-
-    const form = e.currentTarget;
-    const data = new FormData(form);
-
-    try {
-      const res = await fetch("/api/feedback", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: data.get("email"),
-          category: data.get("category"),
-          intent: null,
-          message: data.get("message"),
-          page: "contact",
-        }),
-      });
-
-      if (!res.ok) throw new Error("Failed to submit");
-      setSubmitted(true);
-    } catch {
-      setError("Something went wrong. Please try again.");
-    } finally {
-      setSubmitting(false);
-    }
-  }
-
-  const inputClass =
-    "w-full rounded-lg border border-stone-300 bg-white px-3 py-2.5 text-sm text-stone-900 placeholder:text-stone-400 focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500";
-
-  if (submitted) {
-    return (
-      <div className="min-h-screen bg-stone-50 flex items-center justify-center">
-        <div className="max-w-md px-4 text-center">
-          <div className="rounded-xl border border-green-200 bg-green-50 p-8">
-            <h1 className="text-2xl font-bold text-green-800">
-              Message received!
-            </h1>
-            <p className="mt-2 text-green-700">
-              We&apos;ll get back to you within 48 hours.
-            </p>
-            <Link
-              href="/"
-              className="mt-4 inline-block text-sm text-green-600 hover:text-green-800"
-            >
-              &larr; Back to home
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="min-h-screen bg-stone-50">
-      <div className="mx-auto max-w-lg px-4 py-16">
+    <div className="min-h-screen bg-gray-50">
+      <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
         <Link
           href="/"
-          className="text-sm text-stone-500 hover:text-stone-700"
+          className="mb-8 inline-block text-sm text-amber-600 hover:text-amber-700"
         >
-          &larr; Back
+          &larr; Back to PawPage
         </Link>
 
-        <h1 className="mt-4 text-2xl font-bold text-stone-900">
-          Contact Support
-        </h1>
-        <p className="mt-2 text-stone-600">
-          Need help with your account, billing, or have a question? Send us a
-          message and we&apos;ll respond within 48 hours.
+        <h1 className="text-3xl font-bold text-stone-800">Support & Contact</h1>
+        <p className="mt-2 text-sm text-stone-500">
+          We're here to help. Here's how to reach us.
         </p>
 
-        <div className="mt-6 rounded-lg border border-stone-200 bg-white p-4">
-          <p className="text-sm font-medium text-stone-700">Email us directly</p>
-          <a
-            href="mailto:support@moltcorporation.com"
-            className="mt-1 text-sm text-amber-700 hover:text-amber-800"
-          >
-            support@moltcorporation.com
-          </a>
-          <p className="mt-3 text-xs text-stone-400">
-            Pro plan members receive priority responses within 48 hours.
-          </p>
-        </div>
+        <div className="mt-8 space-y-8 text-stone-700 leading-relaxed">
+          {/* Primary Support */}
+          <section>
+            <h2 className="text-xl font-semibold text-stone-800">
+              Email Support
+            </h2>
+            <p className="mt-3">
+              Have a question about your gallery, applications, deposits, or
+              account? Reach out to us at:
+            </p>
+            <div className="mt-3 rounded-lg bg-amber-50 p-4 border border-amber-200">
+              <p className="text-center">
+                <a
+                  href="mailto:support@pawpage.io"
+                  className="text-amber-700 font-semibold hover:underline"
+                >
+                  support@pawpage.io
+                </a>
+              </p>
+              <p className="mt-2 text-center text-sm text-stone-600">
+                Response time: <strong>48 hours</strong> (usually faster)
+              </p>
+            </div>
+            <p className="mt-4 text-sm text-stone-600">
+              We respond to all support emails within 48 hours during business
+              days. Most inquiries are answered within 24 hours.
+            </p>
+          </section>
 
-        {error && (
-          <div className="mt-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-            {error}
-          </div>
-        )}
+          {/* Common Issues */}
+          <section>
+            <h2 className="text-xl font-semibold text-stone-800">
+              Common Questions
+            </h2>
+            <div className="mt-4 space-y-4">
+              <div>
+                <h3 className="font-medium text-stone-800">
+                  How do I reset my password?
+                </h3>
+                <p className="mt-1 text-sm text-stone-600">
+                  Click "Forgot password?" on the login page. You'll
+                  receive an email with a reset link within minutes.
+                </p>
+              </div>
+              <div>
+                <h3 className="font-medium text-stone-800">
+                  Can I upgrade or downgrade my plan?
+                </h3>
+                <p className="mt-1 text-sm text-stone-600">
+                  Yes! Log in to your dashboard, go to Settings, and click
+                  "Manage Subscription." Changes take effect
+                  immediately.
+                </p>
+              </div>
+              <div>
+                <h3 className="font-medium text-stone-800">
+                  How do I cancel my subscription?
+                </h3>
+                <p className="mt-1 text-sm text-stone-600">
+                  Go to your dashboard Settings and click "Manage
+                  Subscription." You can cancel anytime. No questions
+                  asked.
+                </p>
+              </div>
+              <div>
+                <h3 className="font-medium text-stone-800">
+                  How secure are my photos and applicant data?
+                </h3>
+                <p className="mt-1 text-sm text-stone-600">
+                  Your data is encrypted in transit and at rest. We use Stripe
+                  for all payment processing (we never see credit card numbers).
+                  See our{" "}
+                  <Link
+                    href="/privacy"
+                    className="text-amber-600 hover:underline"
+                  >
+                    Privacy Policy
+                  </Link>{" "}
+                  for details.
+                </p>
+              </div>
+              <div>
+                <h3 className="font-medium text-stone-800">
+                  What if I need to delete my account?
+                </h3>
+                <p className="mt-1 text-sm text-stone-600">
+                  Email{" "}
+                  <a
+                    href="mailto:support@pawpage.io"
+                    className="text-amber-600 hover:underline"
+                  >
+                    support@pawpage.io
+                  </a>{" "}
+                  and we'll deactivate your account within 3 business days. Your
+                  data will be deleted within 30 days.
+                </p>
+              </div>
+            </div>
+          </section>
 
-        <form onSubmit={handleSubmit} className="mt-6 space-y-5">
-          <div>
-            <label
-              htmlFor="name"
-              className="block text-sm font-medium text-stone-700 mb-1"
-            >
-              Name
-            </label>
-            <input
-              type="text"
-              name="name"
-              id="name"
-              required
-              placeholder="Your name"
-              className={inputClass}
-            />
-          </div>
+          {/* Support by Tier */}
+          <section>
+            <h2 className="text-xl font-semibold text-stone-800">
+              Support Included with Your Plan
+            </h2>
+            <div className="mt-4 space-y-3">
+              <div className="rounded-lg border border-stone-200 bg-white p-4">
+                <h3 className="font-medium text-stone-800">Free & Basic Plans</h3>
+                <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-stone-600">
+                  <li>Email support</li>
+                  <li>Response time: 48 hours</li>
+                  <li>Access to documentation and guides</li>
+                </ul>
+              </div>
+              <div className="rounded-lg border border-amber-200 bg-amber-50 p-4">
+                <h3 className="font-medium text-stone-800">Pro Plan</h3>
+                <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-stone-600">
+                  <li>Email support</li>
+                  <li>Response time: 48 hours</li>
+                  <li>Access to documentation and guides</li>
+                </ul>
+                <p className="mt-3 text-xs text-stone-500">
+                  All plans receive the same high-quality support. Premium
+                  features are available separately on request.
+                </p>
+              </div>
+            </div>
+          </section>
 
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-stone-700 mb-1"
-            >
-              Email
-            </label>
-            <input
-              type="email"
-              name="email"
-              id="email"
-              required
-              placeholder="you@example.com"
-              className={inputClass}
-            />
-          </div>
-
-          <div>
-            <label
-              htmlFor="category"
-              className="block text-sm font-medium text-stone-700 mb-1"
-            >
-              What do you need help with?
-            </label>
-            <select name="category" id="category" required className={inputClass}>
-              <option value="general">General question</option>
-              <option value="billing">Billing &amp; subscription</option>
-              <option value="bug">Something isn&apos;t working</option>
-              <option value="feature">Feature request</option>
-              <option value="account">Account &amp; login</option>
-            </select>
-          </div>
-
-          <div>
-            <label
-              htmlFor="message"
-              className="block text-sm font-medium text-stone-700 mb-1"
-            >
-              Message
-            </label>
-            <textarea
-              name="message"
-              id="message"
-              required
-              rows={4}
-              placeholder="Tell us what you need help with..."
-              className={inputClass}
-            />
-          </div>
-
-          <button
-            type="submit"
-            disabled={submitting}
-            className="w-full rounded-lg bg-amber-600 px-4 py-3 text-sm font-medium text-white hover:bg-amber-700 disabled:opacity-50"
-          >
-            {submitting ? "Sending..." : "Send Message"}
-          </button>
-        </form>
-
-        <div className="mt-8 rounded-lg border border-stone-200 bg-white p-4">
-          <p className="text-sm font-medium text-stone-700">Common questions</p>
-          <ul className="mt-2 space-y-2 text-sm text-stone-600">
-            <li>
-              <Link href="/guides/breeder-guide" className="text-amber-700 hover:text-amber-800">
-                Getting started guide
+          {/* Feedback */}
+          <section>
+            <h2 className="text-xl font-semibold text-stone-800">
+              Share Feedback
+            </h2>
+            <p className="mt-3">
+              Have a suggestion for a new feature? Found a bug? We'd love to
+              hear from you.
+            </p>
+            <div className="mt-3">
+              <Link
+                href="/feedback"
+                className="inline-block rounded-lg bg-amber-600 px-6 py-2 font-medium text-white transition hover:bg-amber-700"
+              >
+                Send Feedback
               </Link>
-              {" "}&mdash; Set up your kennel gallery
-            </li>
-            <li>
-              <Link href="/guides/breeder-waitlist" className="text-amber-700 hover:text-amber-800">
-                Waitlist management
-              </Link>
-              {" "}&mdash; How to manage puppy applications
-            </li>
-            <li>
-              <Link href="/terms" className="text-amber-700 hover:text-amber-800">
-                Terms of service
-              </Link>
-              {" "}&mdash; Policies and billing
-            </li>
-          </ul>
+            </div>
+          </section>
+
+          {/* Response Times */}
+          <section>
+            <h2 className="text-xl font-semibold text-stone-800">
+              Support Hours & Holidays
+            </h2>
+            <p className="mt-3">
+              We respond to support emails Monday–Friday, 9 AM–5 PM EST. During
+              holidays and weekends, responses may take longer, but we'll
+              get back to you as soon as possible.
+            </p>
+          </section>
         </div>
       </div>
     </div>

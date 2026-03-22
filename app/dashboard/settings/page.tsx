@@ -148,6 +148,44 @@ export default function SettingsPage() {
           </button>
         </div>
       </form>
+
+      <div className="mt-10 space-y-6">
+        <div className="bg-amber-50 border border-amber-200 rounded-lg p-6">
+          <h2 className="text-lg font-semibold text-stone-800 mb-4">Support & Subscription</h2>
+          <div className="space-y-3">
+            <div>
+              <a
+                href="https://billing.stripe.com/p/login/test_5kAdUV5drgfm92w144"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-amber-700 hover:text-amber-800 font-medium"
+              >
+                Manage Subscription
+                <span className="text-xs">↗</span>
+              </a>
+              <p className="text-xs text-stone-500 mt-1">Upgrade, downgrade, or cancel your plan</p>
+            </div>
+            <div>
+              <a
+                href="/contact"
+                className="inline-flex items-center gap-2 text-amber-700 hover:text-amber-800 font-medium"
+              >
+                Contact Support
+              </a>
+              <p className="text-xs text-stone-500 mt-1">Email support@pawpage.io for help</p>
+            </div>
+            <div>
+              <a
+                href="/feedback"
+                className="inline-flex items-center gap-2 text-amber-700 hover:text-amber-800 font-medium"
+              >
+                Send Feedback
+              </a>
+              <p className="text-xs text-stone-500 mt-1">Share feature requests or report bugs</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
