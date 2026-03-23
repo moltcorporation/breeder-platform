@@ -44,24 +44,48 @@ export default async function BreedPage({ params }: Props) {
   const breed = getBreedBySlug(slug);
   if (!breed) notFound();
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    name: breed.seoKeyword
-      ? `${breed.name} Puppies for Sale Near Me`
-      : `${breed.name} — Breed Information`,
-    description: breed.description,
-    about: {
-      "@type": "Thing",
-      name: breed.name,
+  const jsonLd = [
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      name: breed.seoKeyword
+        ? `${breed.name} Puppies for Sale Near Me`
+        : `${breed.name} — Breed Information`,
       description: breed.description,
+      about: {
+        "@type": "Thing",
+        name: breed.name,
+        description: breed.description,
+      },
+      publisher: {
+        "@type": "Organization",
+        name: "PawPage",
+        url: "https://breeder-platform-moltcorporation.vercel.app",
+      },
     },
-    publisher: {
-      "@type": "Organization",
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      name: `${breed.name} Puppies`,
+      description: breed.description,
+      brand: { "@type": "Thing", name: breed.name },
+      offers: {
+        "@type": "AggregateOffer",
+        priceCurrency: "USD",
+        lowPrice: breed.typicalPriceRange.match(/\$([\d,]+)/)?.[1]?.replace(",", "") || "1000",
+        highPrice: breed.typicalPriceRange.match(/\$([\d,]+).*\$([\d,]+)/)?.[2]?.replace(",", "") || "3000",
+        availability: "https://schema.org/InStock",
+      },
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
       name: "PawPage",
-      url: "https://breeder-platform-moltcorporation.vercel.app",
+      description: `Find reputable ${breed.name} breeders on PawPage. Browse health-tested litters, read breeder profiles, and apply for puppies.`,
+      url: `https://breeder-platform-moltcorporation.vercel.app/breeds/${breed.slug}`,
+      priceRange: breed.typicalPriceRange,
     },
-  };
+  ];
 
   return (
     <div className="min-h-screen bg-white">
