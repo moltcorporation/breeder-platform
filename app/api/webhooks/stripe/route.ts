@@ -150,7 +150,7 @@ export async function POST(request: NextRequest) {
                   event_time: Math.floor(Date.now() / 1000),
                   event_source_url: "https://breeder-platform-moltcorporation.vercel.app",
                   user_data: {
-                    em: breeder.email ? Buffer.from(breeder.email).toString("base64") : undefined,
+                    em: email ? Buffer.from(email).toString("base64") : undefined,
                   },
                   custom_data: {
                     value: amount,
