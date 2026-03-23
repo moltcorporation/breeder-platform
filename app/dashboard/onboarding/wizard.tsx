@@ -45,6 +45,8 @@ export function OnboardingWizard({
   const [litterBreed, setLitterBreed] = useState("");
   const [litterDate, setLitterDate] = useState("");
   const [puppyCount, setPuppyCount] = useState("");
+  const [demoLitter, setDemoLitter] = useState<any>(null);
+  const [demoPuppies, setDemoPuppies] = useState<any[]>([]);
 
   const inputClass =
     "w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500";
@@ -76,6 +78,9 @@ export function OnboardingWizard({
       const dam = dogs.find((d) => d.gender === "female");
       const sire = dogs.find((d) => d.gender === "male");
 
+      let damId: string;
+      let sireId: string;
+
       if (!dam || !sire) {
         // Create placeholder dogs if none exist
         const damRes = await fetch("/api/dogs", {
@@ -100,31 +105,53 @@ export function OnboardingWizard({
         });
         const damData = await damRes.json();
         const sireData = await sireRes.json();
-
-        await fetch("/api/litters", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            damId: damData.id,
-            sireId: sireData.id,
-            whelpDate: litterDate || null,
-            puppyCount: puppyCount ? parseInt(puppyCount) : null,
-            status: litterDate ? "whelped" : "expected",
-          }),
-        });
+        damId = damData.id;
+        sireId = sireData.id;
       } else {
-        await fetch("/api/litters", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            damId: dam.id,
-            sireId: sire.id,
-            whelpDate: litterDate || null,
-            puppyCount: puppyCount ? parseInt(puppyCount) : null,
-            status: litterDate ? "whelped" : "expected",
-          }),
-        });
+        damId = dam.id;
+        sireId = sire.id;
       }
+
+      // Create the litter
+      const litterRes = await fetch("/api/litters", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          damId,
+          sireId,
+          whelpDate: litterDate || null,
+          puppyCount: puppyCount ? parseInt(puppyCount) : 4, // Default to 4 for demo
+          status: litterDate ? "whelped" : "expected",
+        }),
+      });
+      const litterData = await litterRes.json();
+      setDemoLitter(litterData);
+
+      // Create sample puppies for the demo litter
+      const sampleNames = ["Maple", "Bear", "Clover", "Scout"];
+      const sampleColors = ["Golden", "Cream", "Red", "Black"];
+      const demoPuppiesList = [];
+
+      for (let i = 0; i < 4; i++) {
+        try {
+          const puppyRes = await fetch("/api/puppies", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              litterId: litterData.id,
+              name: sampleNames[i],
+              gender: i % 2 === 0 ? "female" : "male",
+              color: sampleColors[i],
+              status: "available",
+            }),
+          });
+          const puppyData = await puppyRes.json();
+          demoPuppiesList.push(puppyData);
+        } catch {
+          // Continue even if puppy creation fails
+        }
+      }
+      setDemoPuppies(demoPuppiesList);
     } catch {
       // Continue even if litter creation fails
     }
@@ -361,35 +388,71 @@ export function OnboardingWizard({
               )}
             </div>
             <div className="px-5 py-4">
-              <div className="grid grid-cols-2 gap-3">
-                {["Puppy 1", "Puppy 2", "Puppy 3", "Puppy 4"].map((name) => (
-                  <div
-                    key={name}
-                    className="rounded-lg border border-gray-100 bg-gray-50 p-3"
-                  >
-                    <div className="h-16 rounded bg-gray-200 mb-2 flex items-center justify-center">
-                      <svg
-                        className="h-6 w-6 text-gray-400"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth={1.5}
+              {demoPuppies.length > 0 ? (
+                <>
+                  <div className="grid grid-cols-2 gap-3">
+                    {demoPuppies.map((puppy) => (
+                      <div
+                        key={puppy.id}
+                        className="rounded-lg border border-gray-100 bg-gray-50 p-3"
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.41a2.25 2.25 0 013.182 0l2.909 2.91M3.75 21h16.5a2.25 2.25 0 002.25-2.25V5.25a2.25 2.25 0 00-2.25-2.25H3.75a2.25 2.25 0 00-2.25 2.25v13.5a2.25 2.25 0 002.25 2.25z"
-                        />
-                      </svg>
-                    </div>
-                    <p className="text-xs font-medium text-gray-600">{name}</p>
-                    <p className="text-xs text-gray-400">Available</p>
+                        <div className="h-16 rounded bg-gray-200 mb-2 flex items-center justify-center">
+                          <svg
+                            className="h-6 w-6 text-gray-400"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth={1.5}
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.41a2.25 2.25 0 013.182 0l2.909 2.91M3.75 21h16.5a2.25 2.25 0 002.25-2.25V5.25a2.25 2.25 0 00-2.25-2.25H3.75a2.25 2.25 0 00-2.25 2.25v13.5a2.25 2.25 0 002.25 2.25z"
+                            />
+                          </svg>
+                        </div>
+                        <p className="text-xs font-medium text-gray-600">{puppy.name}</p>
+                        <p className="text-xs text-gray-400 capitalize">{puppy.status}</p>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-              <p className="text-center text-xs text-gray-400 mt-3">
-                Add puppy photos to make your gallery stand out
-              </p>
+                  <p className="text-center text-xs text-amber-700 mt-3 bg-amber-50 p-2 rounded">
+                    These are sample puppies. You can edit or delete them from the dashboard.
+                  </p>
+                </>
+              ) : (
+                <>
+                  <div className="grid grid-cols-2 gap-3">
+                    {["Puppy 1", "Puppy 2", "Puppy 3", "Puppy 4"].map((name) => (
+                      <div
+                        key={name}
+                        className="rounded-lg border border-gray-100 bg-gray-50 p-3"
+                      >
+                        <div className="h-16 rounded bg-gray-200 mb-2 flex items-center justify-center">
+                          <svg
+                            className="h-6 w-6 text-gray-400"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth={1.5}
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.41a2.25 2.25 0 013.182 0l2.909 2.91M3.75 21h16.5a2.25 2.25 0 002.25-2.25V5.25a2.25 2.25 0 00-2.25-2.25H3.75a2.25 2.25 0 00-2.25 2.25v13.5a2.25 2.25 0 002.25 2.25z"
+                            />
+                          </svg>
+                        </div>
+                        <p className="text-xs font-medium text-gray-600">{name}</p>
+                        <p className="text-xs text-gray-400">Available</p>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="text-center text-xs text-gray-400 mt-3">
+                    Add puppy photos to make your gallery stand out
+                  </p>
+                </>
+              )}
             </div>
           </div>
 
