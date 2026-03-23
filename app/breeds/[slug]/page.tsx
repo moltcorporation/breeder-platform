@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!breed) return {};
 
   const title = breed.seoKeyword
-    ? `${breed.name} Puppies for Sale Near Me | PawPage`
+    ? `${breed.name} Puppies for Sale & Breeders | PawPage`
     : `${breed.name} Breeders — PawPage`;
   const description = breed.seoKeyword
     ? `Find ${breed.name} puppies for sale near you. ${breed.description.slice(0, 80)} Price: ${breed.typicalPriceRange}. Health-tested breeders on PawPage.`
@@ -44,7 +44,7 @@ export default async function BreedPage({ params }: Props) {
   const breed = getBreedBySlug(slug);
   if (!breed) notFound();
 
-  const jsonLd = [
+  const jsonLd: Record<string, unknown>[] = [
     {
       "@context": "https://schema.org",
       "@type": "Article",
@@ -86,6 +86,21 @@ export default async function BreedPage({ params }: Props) {
       priceRange: breed.typicalPriceRange,
     },
   ];
+
+  if (breed.faqs && breed.faqs.length > 0) {
+    jsonLd.push({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: breed.faqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: faq.answer,
+        },
+      })),
+    });
+  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -133,7 +148,7 @@ export default async function BreedPage({ params }: Props) {
           </div>
           <h1 className="mt-4 text-3xl font-bold tracking-tight text-stone-800 sm:text-4xl">
             {breed.seoKeyword
-              ? `${breed.name} Puppies for Sale Near Me`
+              ? `${breed.name} Puppies & Breeders`
               : breed.name}
           </h1>
           <p className="mt-4 max-w-2xl text-lg leading-relaxed text-stone-600">
@@ -201,6 +216,30 @@ export default async function BreedPage({ params }: Props) {
             <div className="mt-4 space-y-4 text-stone-700 leading-relaxed">
               {breed.longContent.split("\n\n").map((paragraph, i) => (
                 <p key={i}>{paragraph}</p>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* FAQ Section */}
+        {breed.faqs && breed.faqs.length > 0 && (
+          <div className="mt-10">
+            <h2 className="text-2xl font-bold text-stone-800">
+              Frequently Asked Questions About {breed.name}
+            </h2>
+            <div className="mt-4 space-y-4">
+              {breed.faqs.map((faq, i) => (
+                <details key={i} className="group rounded-lg border border-stone-200 bg-white">
+                  <summary className="flex cursor-pointer items-center justify-between px-5 py-4 text-stone-800 font-medium">
+                    {faq.question}
+                    <svg className="h-5 w-5 flex-shrink-0 text-stone-400 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                  </summary>
+                  <div className="border-t border-stone-100 px-5 py-4 text-sm leading-relaxed text-stone-600">
+                    {faq.answer}
+                  </div>
+                </details>
               ))}
             </div>
           </div>
