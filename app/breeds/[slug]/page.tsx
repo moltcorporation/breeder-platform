@@ -14,8 +14,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const breed = getBreedBySlug(slug);
   if (!breed) return {};
 
-  const title = `${breed.name} Breeders — PawPage`;
-  const description = `Find reputable ${breed.name} breeders on PawPage. ${breed.description.slice(0, 100)} Average litter size: ${breed.avgLitterSize}. Typical price: ${breed.typicalPriceRange}.`;
+  const title = breed.seoKeyword
+    ? `${breed.name} Puppies for Sale Near Me | PawPage`
+    : `${breed.name} Breeders — PawPage`;
+  const description = breed.seoKeyword
+    ? `Find ${breed.name} puppies for sale near you. ${breed.description.slice(0, 80)} Price: ${breed.typicalPriceRange}. Health-tested breeders on PawPage.`
+    : `Find reputable ${breed.name} breeders on PawPage. ${breed.description.slice(0, 100)} Average litter size: ${breed.avgLitterSize}. Typical price: ${breed.typicalPriceRange}.`;
 
   return {
     title,
@@ -42,11 +46,19 @@ export default async function BreedPage({ params }: Props) {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
-    name: `${breed.name} — Breed Information`,
+    name: breed.seoKeyword
+      ? `${breed.name} Puppies for Sale Near Me`
+      : `${breed.name} — Breed Information`,
     description: breed.description,
+    about: {
+      "@type": "Thing",
+      name: breed.name,
+      description: breed.description,
+    },
     publisher: {
       "@type": "Organization",
       name: "PawPage",
+      url: "https://breeder-platform-moltcorporation.vercel.app",
     },
   };
 
@@ -95,7 +107,9 @@ export default async function BreedPage({ params }: Props) {
             <span className="rounded-full bg-amber-100 px-3 py-0.5 text-xs">{breed.group} Group</span>
           </div>
           <h1 className="mt-4 text-3xl font-bold tracking-tight text-stone-800 sm:text-4xl">
-            {breed.name}
+            {breed.seoKeyword
+              ? `${breed.name} Puppies for Sale Near Me`
+              : breed.name}
           </h1>
           <p className="mt-4 max-w-2xl text-lg leading-relaxed text-stone-600">
             {breed.description}
@@ -129,6 +143,60 @@ export default async function BreedPage({ params }: Props) {
           </div>
         </div>
 
+        {/* Health Notes (if available) */}
+        {breed.healthNotes && breed.healthNotes.length > 0 && (
+          <div className="mt-10">
+            <h2 className="text-2xl font-bold text-stone-800">
+              Health Considerations for {breed.name} Puppies
+            </h2>
+            <p className="mt-2 text-stone-600">
+              Ask your breeder about these common health concerns. Responsible breeders test for these conditions before breeding.
+            </p>
+            <div className="mt-4 space-y-3">
+              {breed.healthNotes.map((note) => (
+                <div key={note} className="flex gap-3 rounded-lg border border-stone-200 bg-stone-50 p-4">
+                  <span className="mt-0.5 flex-shrink-0 text-amber-600">
+                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+                    </svg>
+                  </span>
+                  <p className="text-sm text-stone-700">{note}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Long-form Content (if available) */}
+        {breed.longContent && (
+          <div className="mt-10">
+            <h2 className="text-2xl font-bold text-stone-800">
+              Everything You Need to Know About {breed.name} Puppies
+            </h2>
+            <div className="mt-4 space-y-4 text-stone-700 leading-relaxed">
+              {breed.longContent.split("\n\n").map((paragraph, i) => (
+                <p key={i}>{paragraph}</p>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* CTA - List Your Litter */}
+        <div className="mt-12 rounded-2xl border border-amber-200/60 bg-gradient-to-r from-amber-50 to-orange-50 p-8 text-center">
+          <h2 className="text-xl font-bold text-stone-800">
+            List Your {breed.name} Litter on PawPage
+          </h2>
+          <p className="mx-auto mt-2 max-w-lg text-stone-600">
+            Create your free gallery page on PawPage. Showcase your litters, manage your waitlist, and let families find you.
+          </p>
+          <Link
+            href="/register"
+            className="mt-6 inline-block rounded-full bg-amber-600 px-8 py-3 text-sm font-semibold text-white shadow-md shadow-amber-200 hover:bg-amber-700"
+          >
+            Create your breeder page — free
+          </Link>
+        </div>
+
         {/* Find Breeders by State */}
         <div className="mt-12">
           <h2 className="text-2xl font-bold text-stone-800">
@@ -148,22 +216,6 @@ export default async function BreedPage({ params }: Props) {
               </Link>
             ))}
           </div>
-        </div>
-
-        {/* CTA */}
-        <div className="mt-12 rounded-2xl border border-amber-200/60 bg-gradient-to-r from-amber-50 to-orange-50 p-8 text-center">
-          <h2 className="text-xl font-bold text-stone-800">
-            Are you a {breed.name} breeder?
-          </h2>
-          <p className="mx-auto mt-2 max-w-lg text-stone-600">
-            Create your free gallery page on PawPage. Showcase your litters, manage your waitlist, and let families find you.
-          </p>
-          <Link
-            href="/register"
-            className="mt-6 inline-block rounded-full bg-amber-600 px-8 py-3 text-sm font-semibold text-white shadow-md shadow-amber-200 hover:bg-amber-700"
-          >
-            Create your breeder page — free
-          </Link>
         </div>
 
         {/* Browse other breeds */}

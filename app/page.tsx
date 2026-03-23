@@ -972,6 +972,58 @@ function FAQ() {
 }
 
 // ---------------------------------------------------------------------------
+// Popular Breeds
+// ---------------------------------------------------------------------------
+
+const POPULAR_BREEDS = [
+  { name: "Labrador Retriever", slug: "labrador-retriever", searches: "9,900/mo" },
+  { name: "English Bulldog", slug: "english-bulldog", searches: "4,400/mo" },
+  { name: "Cavapoo", slug: "cavapoo", searches: "2,900/mo" },
+  { name: "English Springer Spaniel", slug: "english-springer-spaniel", searches: "1,600/mo" },
+  { name: "Akita", slug: "akita", searches: "1,300/mo" },
+];
+
+function PopularBreeds() {
+  return (
+    <section className="bg-white px-4 py-20 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-6xl">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold tracking-tight text-stone-800 sm:text-3xl">
+            Popular Breed Directory
+          </h2>
+          <p className="mx-auto mt-3 max-w-xl text-stone-600">
+            Find reputable breeders for the most popular dog breeds. Every breeder on PawPage has a verified gallery and waitlist.
+          </p>
+        </div>
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {POPULAR_BREEDS.map((breed) => (
+            <Link
+              key={breed.slug}
+              href={`/breeds/${breed.slug}`}
+              className="group rounded-xl border border-stone-200 bg-white p-6 transition-all hover:border-amber-300 hover:shadow-md hover:shadow-amber-100/40"
+            >
+              <h3 className="text-lg font-semibold text-stone-800 group-hover:text-amber-700">
+                {breed.name}
+              </h3>
+              <p className="mt-1 text-sm text-stone-500">
+                View breed info, health tips &amp; breeders
+              </p>
+            </Link>
+          ))}
+          <Link
+            href="/breeds"
+            className="group flex items-center justify-center rounded-xl border border-dashed border-stone-300 p-6 transition-all hover:border-amber-400 hover:bg-amber-50"
+          >
+            <span className="text-sm font-medium text-stone-500 group-hover:text-amber-700">
+              Browse all 50+ breeds &rarr;
+            </span>
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // Bottom CTA
 // ---------------------------------------------------------------------------
 
@@ -1185,6 +1237,7 @@ export default function Home() {
       <Pricing />
       <WaveDivider fillColor="#FFFBEB" />
       <FAQ />
+      <PopularBreeds />
       <BottomCTA />
       <CrossProductFooter />
       <LandingFooter />
