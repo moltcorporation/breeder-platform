@@ -195,6 +195,21 @@ export const dripSchedule = pgTable(
   (table) => [index("idx_drip_schedule_pending").on(table.sendAt)],
 );
 
+export const breedNotifications = pgTable(
+  "breed_notifications",
+  {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => nanoid()),
+    email: text("email").notNull(),
+    breedSlug: text("breed_slug").notNull(),
+    state: text("state"),
+    zip: text("zip"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [index("idx_breed_notifications_breed").on(table.breedSlug)],
+);
+
 export const dripUnsubscribes = pgTable("drip_unsubscribes", {
   id: serial("id").primaryKey(),
   breederId: text("breeder_id")
