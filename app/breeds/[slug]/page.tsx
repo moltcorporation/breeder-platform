@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { BREEDS, getBreedBySlug, US_STATES } from "@/lib/breeds";
+import BreedNotifyForm from "@/components/breed-notify-form";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -150,8 +151,19 @@ export default async function BreedPage({ params }: Props) {
           </div>
         </div>
 
-        {/* CTA */}
-        <div className="mt-12 rounded-2xl border border-amber-200/60 bg-gradient-to-r from-amber-50 to-orange-50 p-8 text-center">
+        {/* Buyer email capture */}
+        <div className="mt-12 rounded-2xl border border-stone-200 bg-stone-50 p-8">
+          <h2 className="text-xl font-bold text-stone-800">
+            Get notified when {breed.name} breeders join
+          </h2>
+          <p className="mt-2 mb-5 text-stone-600">
+            We&apos;re growing our {breed.name} breeder network. Sign up and we&apos;ll let you know when reputable breeders near you create their PawPage.
+          </p>
+          <BreedNotifyForm breedName={breed.name} breedSlug={breed.slug} />
+        </div>
+
+        {/* Breeder CTA */}
+        <div className="mt-8 rounded-2xl border border-amber-200/60 bg-gradient-to-r from-amber-50 to-orange-50 p-8 text-center">
           <h2 className="text-xl font-bold text-stone-800">
             Are you a {breed.name} breeder?
           </h2>
@@ -159,10 +171,10 @@ export default async function BreedPage({ params }: Props) {
             Create your free gallery page on PawPage. Showcase your litters, manage your waitlist, and let families find you.
           </p>
           <Link
-            href="/register"
+            href={`/register?breed=${breed.slug}`}
             className="mt-6 inline-block rounded-full bg-amber-600 px-8 py-3 text-sm font-semibold text-white shadow-md shadow-amber-200 hover:bg-amber-700"
           >
-            Create your breeder page — free
+            List your {breed.name} puppies — free
           </Link>
         </div>
 
