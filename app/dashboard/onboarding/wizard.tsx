@@ -21,6 +21,38 @@ type Dog = {
   breed: string;
 };
 
+const SAMPLE_PUPPIES: Record<string, { names: string[]; colors: string[] }> = {
+  "golden retriever": {
+    names: ["Maple", "Bear", "Clover", "Scout", "Sunny", "Biscuit"],
+    colors: ["Light Gold", "Dark Gold", "Cream", "Golden", "Honey", "Amber"],
+  },
+  "french bulldog": {
+    names: ["Pierre", "Coco", "Milo", "Bella", "Louie", "Rosie"],
+    colors: ["Brindle", "Fawn", "Cream", "Blue", "Pied", "Lilac"],
+  },
+  labrador: {
+    names: ["Duke", "Daisy", "Cooper", "Sadie", "Tucker", "Molly"],
+    colors: ["Chocolate", "Yellow", "Black", "Fox Red", "Champagne", "Charcoal"],
+  },
+  default: {
+    names: ["Maple", "Bear", "Clover", "Scout", "Sunny", "Biscuit"],
+    colors: ["Tan", "Black", "White", "Brown", "Spotted", "Cream"],
+  },
+};
+
+function getSamplePuppies(breed: string, count: number = 4) {
+  const key = Object.keys(SAMPLE_PUPPIES).find((k) =>
+    breed.toLowerCase().includes(k)
+  );
+  const data = SAMPLE_PUPPIES[key || "default"];
+  return Array.from({ length: count }, (_, i) => ({
+    name: data.names[i % data.names.length],
+    color: data.colors[i % data.colors.length],
+    gender: i % 2 === 0 ? "Male" : "Female",
+    status: i < count - 1 ? "Available" : "Reserved",
+  }));
+}
+
 export function OnboardingWizard({
   breeder,
   kennelSlug,
@@ -50,6 +82,9 @@ export function OnboardingWizard({
     "w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500";
   const labelClass = "block text-sm font-medium text-gray-700 mb-1";
 
+  const totalSteps = 4;
+  const progressPercent = Math.round((step / totalSteps) * 100);
+
   async function saveProfile() {
     setSaving(true);
     await fetch("/api/profile", {
@@ -72,12 +107,10 @@ export function OnboardingWizard({
   async function addLitter() {
     setSaving(true);
     try {
-      // Find a female and male dog to use as dam/sire
       const dam = dogs.find((d) => d.gender === "female");
       const sire = dogs.find((d) => d.gender === "male");
 
       if (!dam || !sire) {
-        // Create placeholder dogs if none exist
         const damRes = await fetch("/api/dogs", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -146,14 +179,40 @@ export function OnboardingWizard({
     { num: 4, label: "Share" },
   ];
 
-  const totalSteps = steps.length;
+  const previewBreed =
+    litterBreed ||
+    breeds.split(",")[0]?.trim() ||
+    breeder.breeds?.[0] ||
+    "";
+  const samplePuppies = getSamplePuppies(
+    previewBreed,
+    puppyCount ? Math.min(parseInt(puppyCount), 6) : 4
+  );
 
   return (
     <div className="max-w-2xl">
       <h1 className="text-2xl font-bold mb-1">Welcome to your kennel!</h1>
-      <p className="text-gray-500 mb-8">
+      <p className="text-gray-500 mb-6">
         Let&apos;s get you set up in under 2 minutes.
       </p>
+
+      {/* Progress percentage bar */}
+      <div className="mb-6">
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-sm font-medium text-gray-700">
+            Setup progress
+          </span>
+          <span className="text-sm font-semibold text-gray-900">
+            {progressPercent}%
+          </span>
+        </div>
+        <div className="h-2 w-full rounded-full bg-gray-100">
+          <div
+            className="h-2 rounded-full bg-gray-900 transition-all duration-500"
+            style={{ width: `${progressPercent}%` }}
+          />
+        </div>
+      </div>
 
       {/* Progress steps */}
       <div className="flex items-center gap-2 mb-8">
@@ -322,18 +381,18 @@ export function OnboardingWizard({
         </div>
       )}
 
-      {/* Step 3: Preview Gallery */}
+      {/* Step 3: Preview Gallery with Sample Data */}
       {step === 3 && (
         <div className="bg-white rounded-xl border border-gray-200 p-6">
           <h2 className="text-lg font-semibold mb-1">
             Preview your gallery
           </h2>
           <p className="text-sm text-gray-500 mb-6">
-            This is what potential buyers will see when they visit your page.
+            Here&apos;s what buyers will see. Sample puppies shown below — replace them with your own photos later.
           </p>
 
-          {/* Gallery preview mockup */}
-          <div className="rounded-lg border border-gray-200 overflow-hidden mb-6">
+          {/* Gallery preview with sample data */}
+          <div className="rounded-lg border border-gray-200 overflow-hidden mb-4">
             <div className="bg-gray-50 px-5 py-4 border-b border-gray-200">
               <h3 className="font-semibold text-lg">
                 {kennelName || breeder.kennelName}
@@ -361,10 +420,13 @@ export function OnboardingWizard({
               )}
             </div>
             <div className="px-5 py-4">
+              <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-3">
+                {previewBreed ? `${previewBreed} Litter` : "Current Litter"} — Sample Preview
+              </p>
               <div className="grid grid-cols-2 gap-3">
-                {["Puppy 1", "Puppy 2", "Puppy 3", "Puppy 4"].map((name) => (
+                {samplePuppies.map((puppy) => (
                   <div
-                    key={name}
+                    key={puppy.name}
                     className="rounded-lg border border-gray-100 bg-gray-50 p-3"
                   >
                     <div className="h-16 rounded bg-gray-200 mb-2 flex items-center justify-center">
@@ -382,13 +444,24 @@ export function OnboardingWizard({
                         />
                       </svg>
                     </div>
-                    <p className="text-xs font-medium text-gray-600">{name}</p>
-                    <p className="text-xs text-gray-400">Available</p>
+                    <p className="text-sm font-medium text-gray-700">{puppy.name}</p>
+                    <p className="text-xs text-gray-500">
+                      {puppy.gender} · {puppy.color}
+                    </p>
+                    <p
+                      className={`text-xs font-medium mt-0.5 ${
+                        puppy.status === "Available"
+                          ? "text-green-600"
+                          : "text-amber-600"
+                      }`}
+                    >
+                      {puppy.status}
+                    </p>
                   </div>
                 ))}
               </div>
               <p className="text-center text-xs text-gray-400 mt-3">
-                Add puppy photos to make your gallery stand out
+                These are sample puppies — add your own photos to make your gallery shine
               </p>
             </div>
           </div>
@@ -415,11 +488,29 @@ export function OnboardingWizard({
       {step === 4 && (
         <div className="space-y-6">
           <div className="bg-white rounded-xl border border-gray-200 p-6">
-            <h2 className="text-lg font-semibold mb-1">Share your link</h2>
-            <p className="text-sm text-gray-500 mb-4">
-              Put this on your Instagram bio, Facebook, or business cards so
-              buyers can find you.
-            </p>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-50">
+                <svg
+                  className="h-5 w-5 text-green-600"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+              </div>
+              <div>
+                <h2 className="text-lg font-semibold">You&apos;re all set!</h2>
+                <p className="text-sm text-gray-500">
+                  Share your gallery link so buyers can find you.
+                </p>
+              </div>
+            </div>
 
             <div className="flex items-center gap-2">
               <div className="flex-1 rounded-lg bg-gray-50 border border-gray-200 px-4 py-2.5 text-sm font-mono text-gray-700">
