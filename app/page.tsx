@@ -127,7 +127,7 @@ function WaveDivider({ flip = false, fillColor = "#FFFBEB" }: { flip?: boolean; 
 
 function Nav() {
   return (
-    <nav className="fixed top-0 z-50 w-full border-b border-[#D1D5C8]/60 bg-white/90 backdrop-blur-md">
+    <nav className="fixed top-0 z-50 w-full border-b border-[#D1D5C8]/60 bg-white/95">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-2 text-lg font-bold tracking-tight text-stone-800">
           <PawPrintIcon className="h-7 w-7 text-amber-600" />
@@ -203,23 +203,7 @@ function Hero() {
         background: "linear-gradient(180deg, #FFFBEB 0%, #FFF7ED 40%, #FFFFFF 100%)",
       }}
     >
-      {/* Decorative paw print pattern background */}
-      <div className="pointer-events-none absolute inset-0 opacity-[0.04]">
-        <svg width="100%" height="100%">
-          <defs>
-            <pattern id="paw-pattern" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse">
-              <g fill="#92400E">
-                <ellipse cx="20" cy="16" rx="4" ry="5" />
-                <ellipse cx="36" cy="16" rx="4" ry="5" />
-                <ellipse cx="13" cy="26" rx="3.5" ry="4.5" />
-                <ellipse cx="43" cy="26" rx="3.5" ry="4.5" />
-                <path d="M28 40c-5 0-9.5-3.5-11-7.5-1-3 .5-5.8 3.3-6.5 2-.6 4.2.3 5.4 2 .8 1.2 1.6 2 2.3 2s1.5-0.8 2.3-2c1.2-1.7 3.4-2.6 5.4-2 2.8.7 4.3 3.5 3.3 6.5-1.5 4-6 7.5-11 7.5z" />
-              </g>
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#paw-pattern)" />
-        </svg>
-      </div>
+      {/* Decorative subtle background gradient instead of heavy SVG */}
 
       <div className="relative">
         <div className="mx-auto mb-6 flex items-center justify-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-4 py-1.5 text-sm font-medium text-amber-800 shadow-sm" style={{ width: "fit-content" }}>
@@ -1035,23 +1019,7 @@ function BottomCTA() {
         background: "linear-gradient(135deg, #FFFBEB 0%, #FFF7ED 50%, #FEF3C7 100%)",
       }}
     >
-      {/* Decorative paw prints */}
-      <div className="pointer-events-none absolute inset-0 opacity-[0.06]">
-        <svg width="100%" height="100%">
-          <defs>
-            <pattern id="paw-cta" x="0" y="0" width="120" height="120" patternUnits="userSpaceOnUse">
-              <g fill="#92400E">
-                <ellipse cx="30" cy="24" rx="5" ry="6.5" />
-                <ellipse cx="50" cy="24" rx="5" ry="6.5" />
-                <ellipse cx="21" cy="37" rx="4.5" ry="5.5" />
-                <ellipse cx="59" cy="37" rx="4.5" ry="5.5" />
-                <path d="M40 55c-6 0-12-4-14-9-1.3-3.5.6-7 4-8 2.5-.7 5.2.4 6.8 2.5 1 1.4 2 2.5 3.2 2.5s2.2-1.1 3.2-2.5c1.6-2.1 4.3-3.2 6.8-2.5 3.4 1 5.3 4.5 4 8-2 5-8 9-14 9z" />
-              </g>
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#paw-cta)" />
-        </svg>
-      </div>
+      {/* Simplified background for better performance */}
 
       <div className="relative mx-auto max-w-2xl">
         <HeartIcon className="mx-auto mb-6 h-10 w-10 text-amber-400" />
