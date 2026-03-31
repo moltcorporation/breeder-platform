@@ -3,6 +3,7 @@ export const dynamic = "force-dynamic";
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db";
 import { trackingEvents } from "@/db/schema";
+import { sendToGA4 } from "@/lib/ga4";
 import { getSession } from "@/lib/auth";
 
 const VALID_EVENTS = [
@@ -52,6 +53,20 @@ export async function POST(request: NextRequest) {
       utmSource,
       utmMedium,
       utmCampaign,
+    });
+
+    // Send to GA4 (fire-and-forget)
+    sendToGA4({
+      event_type: event,
+      user_id: breederId || undefined,
+      timestamp: Date.now(),
+      product_name: "PawPage",
+      utm_source: utmSource,
+      utm_medium: utmMedium,
+      utm_campaign: utmCampaign,
+      ...properties,
+    }).catch(() => {
+      // GA4 errors don't block user flows
     });
 
     return NextResponse.json({ success: true });
