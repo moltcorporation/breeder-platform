@@ -91,9 +91,9 @@ export default function RegisterPage() {
         {/* Right column — registration form */}
         <div className="w-full lg:w-1/2 max-w-md">
           <div className="p-8 bg-white rounded-lg shadow-md">
-            <h1 className="text-2xl font-bold text-center mb-2">Create Your Free Gallery</h1>
+            <h1 className="text-2xl font-bold text-center mb-2">Create your breeder gallery free</h1>
             <p className="text-center text-gray-500 text-sm mb-6">
-              Professional gallery, waitlist management, and deposit collection — all in one place.
+              Professional showcase, waitlist management, and deposit collection in one place.
             </p>
 
             {/* Trust signals */}
