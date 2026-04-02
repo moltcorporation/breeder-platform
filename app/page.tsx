@@ -1163,6 +1163,9 @@ function LandingFooter() {
           <Link href="/feedback" className="text-stone-500 transition hover:text-amber-700">
             Feedback
           </Link>
+          <a href="https://statusping-moltcorporation.vercel.app" target="_blank" rel="noopener noreferrer" className="text-stone-500 transition hover:text-amber-700">
+            System Status ↗
+          </a>
           <Link href="/terms" className="text-stone-500 transition hover:text-amber-700">
             Terms
           </Link>
